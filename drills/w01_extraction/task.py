@@ -27,7 +27,8 @@ FENCE = re.compile(r"```(?:json)?\s*(.*?)```", re.DOTALL)
 OBJECT = re.compile(r"\{.*\}", re.DOTALL)
 
 
-def extract(doc: str, model) -> dict:
+def extract(invoice, model) -> dict:
+    doc = invoice.raw
     response = model.complete(PROMPT.format(doc=doc))
     text = response.text.strip()
 

@@ -257,7 +257,8 @@ def _richness(record: dict) -> int:
     return score + (2 if arithmetic_ok(record) else 0)
 
 
-def extract(doc: str, model) -> dict:
+def extract(invoice, model) -> dict:
+    doc = invoice.raw
     best: dict = {}
 
     for attempt in range(3):

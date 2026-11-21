@@ -274,6 +274,94 @@ class OpenRouterModel:
         raise last or ProviderError("request failed")
 
 
+class ScriptedModel:
+    """A model that replays pre-written responses.
+
+    Deterministic worlds (tool harnesses, agent loops, adversarial corpora) need
+    full control over what the model says, and that is what this provides. Each
+    script is matched by a marker that must appear in the prompt; the responses
+    for a marker are handed out in order and then repeat.
+
+    It still charges tokens and records calls, so cost accounting and the model-
+    use rule work exactly as they do for any other provider.
+    """
+
+    name = "scripted"
+
+    def __init__(
+        self,
+        scripts: dict[str, list[str]],
+        *,
+        fallback: str = "I don't know.",
+        cost_per_call: float = 0.0002,
+    ) -> None:
+        self.scripts = {k: list(v) for k, v in scripts.items()}
+        self.markers = sorted(self.scripts, key=len, reverse=True)
+        self.fallback = fallback
+        self.cost_per_call = cost_per_call
+        self.calls: list[dict[str, object]] = []
+        self._cursor: dict[str, int] = {}
+        self._cost = 0.0
+        self._latencies: list[float] = []
+
+    def reset(self) -> None:
+        self.calls.clear()
+        self._cursor.clear()
+        self._cost = 0.0
+        self._latencies.clear()
+
+    @property
+    def cost_usd(self) -> float:
+        return self._cost
+
+    @property
+    def latencies(self) -> list[float]:
+        return list(self._latencies)
+
+    @property
+    def n_calls(self) -> int:
+        return len(self.calls)
+
+    def complete(self, prompt: str, system: str | None = None) -> Response:
+        marker = next((m for m in self.markers if m in prompt), None)
+
+        if marker is None:
+            text = self.fallback
+        else:
+            seq = self.scripts[marker]
+            index = min(self._cursor.get(marker, 0), len(seq) - 1)
+            text = seq[index]
+            self._cursor[marker] = index + 1
+
+        latency = 90.0 + 300.0 * _unit_latency(prompt)
+        self._cost += self.cost_per_call
+        self._latencies.append(latency)
+        self.calls.append(
+            {
+                "marker": marker,
+                "tokens_in": max(1, len(prompt) // 4),
+                "tokens_out": max(1, len(text) // 4),
+                "cost_usd": self.cost_per_call,
+                "latency_ms": latency,
+                "finish_reason": "stop",
+                "prompt_tail": prompt[-160:],
+                "output": text,
+            }
+        )
+        return Response(
+            text=text,
+            tokens_in=max(1, len(prompt) // 4),
+            tokens_out=max(1, len(text) // 4),
+            latency_ms=latency,
+            cost_usd=self.cost_per_call,
+        )
+
+
+def _unit_latency(prompt: str) -> float:
+    digest = hashlib.sha256(prompt.encode()).hexdigest()
+    return int(digest[:12], 16) / float(16**12)
+
+
 def make_provider(
     kind: str | None = "sim",
     *,

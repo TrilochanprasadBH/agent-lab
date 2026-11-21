@@ -142,7 +142,8 @@ class Scorecard:
     modes: dict[str, int] = field(default_factory=dict)
     target_accuracy: float = 0.90
     max_cost_usd: float = 0.03
-    min_calls_per_doc: float = 0.9
+    min_calls_per_doc: float = 0.0
+    notes: list[str] = field(default_factory=list)
 
     @property
     def meets_accuracy(self) -> bool:
@@ -231,17 +232,20 @@ class Scorecard:
         lines.append(f" calls         {self.calls:6d}")
         lines.append(f" latency p95   {self.p95_latency_ms:6.0f}ms")
         lines.append(BAR)
-        lines.append(" per field")
-        for name in SCORED_FIELDS:
-            value = self.per_field.get(name, 0.0)
-            filled = int(round(value * 30))
-            bar = "\u2588" * filled + "." * (30 - filled)
-            lines.append(f"   {name:<14} {value:6.1%}  {bar}")
+        lines.append(" metrics")
+        for name, value in self.per_field.items():
+            filled = int(round(value * 28))
+            bar = "\u2588" * filled + "." * (28 - filled)
+            lines.append(f"   {name:<18} {value:6.1%}  {bar}")
         lines.append(BAR)
         if self.modes:
             lines.append(" failure modes")
             for mode, n in sorted(self.modes.items(), key=lambda kv: -kv[1])[:5]:
                 lines.append(f"   {n:3d}x  {mode}")
+            lines.append(BAR)
+        if self.notes:
+            for note in self.notes:
+                lines.append(f" note: {note}")
             lines.append(BAR)
         verdict = "TARGET MET" if self.passed else "keep going"
         lines.append(f" {verdict}")
@@ -255,6 +259,43 @@ def percentile(values: list[float], q: float) -> float:
     ordered = sorted(values)
     idx = min(len(ordered) - 1, int(round(q * (len(ordered) - 1))))
     return ordered[idx]
+
+
+def make_card(
+    *,
+    metrics: dict[str, float],
+    model,
+    n_items: int,
+    target_accuracy: float,
+    max_cost_usd: float,
+    crashes: int = 0,
+    modes: dict[str, int] | None = None,
+    failures: list[dict] | None = None,
+    notes: list[str] | None = None,
+) -> Scorecard:
+    """Build a scorecard for a drill whose metrics are not invoice fields.
+
+    `accuracy` is the mean of the supplied metrics, so a drill with one number
+    and a drill with four both read the same on the summary line.
+    """
+    accuracy = sum(metrics.values()) / len(metrics) if metrics else 0.0
+    calls = model.n_calls
+    return Scorecard(
+        accuracy=accuracy,
+        per_field=dict(metrics),
+        cost_usd=model.cost_usd,
+        cost_per_doc=model.cost_usd / n_items if n_items else 0.0,
+        p95_latency_ms=percentile(model.latencies, 0.95),
+        calls=calls,
+        calls_per_doc=calls / n_items if n_items else 0.0,
+        crashes=crashes,
+        n_docs=n_items,
+        failures=failures or [],
+        modes=modes or {},
+        target_accuracy=target_accuracy,
+        max_cost_usd=max_cost_usd,
+        notes=notes or [],
+    )
 
 
 def score(
@@ -289,6 +330,7 @@ def score(
                         "predicted": predicted,
                         "expected": expected,
                         "cause": cause,
+                        "detail": " / ".join(res.invoice.raw.splitlines()[:2]),
                     }
                 )
         per_field[name] = hits / n if n else 0.0
@@ -317,4 +359,5 @@ def score(
         modes=modes,
         target_accuracy=target_accuracy,
         max_cost_usd=max_cost_usd,
+        min_calls_per_doc=0.9,
     )

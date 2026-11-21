@@ -8,18 +8,24 @@ Three pieces:
 """
 
 from .model import Response, SimModel
-from .evals import Scorecard, score
+from .evals import Scorecard, make_card, score
 from .drill import Result, run_drill
-from .providers import OpenRouterModel, ProviderError, make_provider
+from .providers import OpenRouterModel, ProviderError, ScriptedModel, make_provider
+from .tools import Param, Tool, ToolRegistry
 
 __all__ = [
     "Response",
     "SimModel",
     "Scorecard",
+    "make_card",
     "score",
     "Result",
     "run_drill",
     "OpenRouterModel",
     "ProviderError",
+    "ScriptedModel",
     "make_provider",
+    "Param",
+    "Tool",
+    "ToolRegistry",
 ]
