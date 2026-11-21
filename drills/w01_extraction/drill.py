@@ -13,10 +13,21 @@ TARGET_ACCURACY = 0.90
 MAX_COST_USD = 0.012
 
 
-def build(seed: int = 7) -> tuple[list, SimModel]:
+def corpus() -> list:
+    """The seeded documents for this drill."""
+    return generate()
+
+
+def build(seed: int = 7, provider=None) -> tuple[list, object]:
+    """Return (corpus, model).
+
+    `provider` may be any object with the model contract; when omitted the
+    simulated model is used.
+    """
     corpus = generate()
-    model = SimModel([inv.raw for inv in corpus], seed=seed)
-    return corpus, model
+    if provider is None:
+        provider = SimModel([inv.raw for inv in corpus], seed=seed)
+    return corpus, provider
 
 
 def get_task():

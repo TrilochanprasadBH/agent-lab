@@ -32,6 +32,24 @@ python3 -m unittest discover -s tests -v
 
 The first run scores the baseline at about **71%** against a **90%** target.
 
+### Simulated by default, real when you want it
+
+Every drill runs against a simulated model: deterministic, offline, instant,
+free. That is what makes a two-second feedback loop possible, and it is where
+the systems discipline gets built — the simulator fails in the ways models
+characteristically fail, so your wrapper has to be genuinely defensive.
+
+The same drills run against a real model behind the same interface:
+
+```sh
+export OPENROUTER_API_KEY=sk-or-...
+python3 run.py --provider openrouter --model <model-id> --limit 5   # cheap smoke test
+python3 run.py --provider openrouter --model <model-id>             # full run
+```
+
+Responses are cached on disk, so an unchanged attempt costs nothing to rerun.
+See `docs/real-models.md` for costs, noise, and how to add another provider.
+
 ## How a drill is scored
 
 | line | meaning |
@@ -117,11 +135,13 @@ plan.
 ```
 agentlab/          the harness — read it, do not edit it
   model.py         deterministic flaky model with token accounting
+  providers.py     provider seam: simulated, OpenRouter, your own
   evals.py         normalization, field scoring, failure clustering
   drill.py         corpus runner
 drills/            one directory per drill
 solutions/         reference solutions, after you have tried
 tests/             checks that the drills are fair and solvable
+docs/              notes on running against real models
 run.py             the runner
 progress.md        your retro log
 ```

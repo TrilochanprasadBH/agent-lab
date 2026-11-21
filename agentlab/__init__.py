@@ -10,5 +10,16 @@ Three pieces:
 from .model import Response, SimModel
 from .evals import Scorecard, score
 from .drill import Result, run_drill
+from .providers import OpenRouterModel, ProviderError, make_provider
 
-__all__ = ["Response", "SimModel", "Scorecard", "score", "Result", "run_drill"]
+__all__ = [
+    "Response",
+    "SimModel",
+    "Scorecard",
+    "score",
+    "Result",
+    "run_drill",
+    "OpenRouterModel",
+    "ProviderError",
+    "make_provider",
+]

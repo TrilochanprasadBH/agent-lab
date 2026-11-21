@@ -37,6 +37,7 @@ class Response:
     latency_ms: float
     cost_usd: float
     finish_reason: str = "stop"
+    cached: bool = False
 
     def __str__(self) -> str:
         return self.text
