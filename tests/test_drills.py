@@ -29,6 +29,7 @@ DRILLS = [
     "w08_routing",
     "w09_injection",
     "w10_triage",
+    "w11_capstone",
 ]
 
 

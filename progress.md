@@ -16,6 +16,7 @@ One entry per drill. The score is evidence; the retro is the point.
 | w08 routing | 100% / $0.060 | — | 92% / $0.030 | — |
 | w09 injection | 0.0% | — | 95% | — |
 | w10 triage | 18.3% | — | 90% | — |
+| w11 capstone | 20.8% | — | 90% + zero unsafe | — |
 
 ## Entry template
 

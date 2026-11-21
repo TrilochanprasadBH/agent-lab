@@ -1,6 +1,6 @@
 # Agent Lab
 
-Ten drills for agent engineering. Each one is a small, seeded world with hidden ground truth, a deliberately mediocre baseline, and a numeric target. You edit one file. The harness scores you in about a second and shows you your top failure modes.
+Eleven drills for agent engineering — ten components and one capstone that forces them to hold at once. Each is a seeded world with hidden ground truth, a deliberately mediocre baseline, and a numeric target. You edit one file. The harness scores you in about a second and shows you your top failure modes.
 
 No API keys. No network. No setup once the lab exists.
 
@@ -27,7 +27,7 @@ python3 run.py --drill w01_extraction --task solutions/w01_reference.py   # a pa
 python3 -m unittest discover -s tests -v       # check the lab itself
 ```
 
-Start with `w01`, then work in order. Later drills assume the earlier habits.
+Start with `w01`, then work in order. Later drills assume the earlier habits. Leave `w11` for last — it is the exam.
 
 ## The ten
 
@@ -43,6 +43,7 @@ Start with `w01`, then work in order. Later drills assume the earlier habits.
 | 08 | routing and cost | accuracy under a hard cap | 100% but $0.060 → 100% at $0.0275 |
 | 09 | injection defence | correct answers, zero exfiltration | 0.0% → 100% |
 | 10 | trace triage | correct root cause | 18.3% → 100% |
+| 11 | **capstone** | tickets handled *and* nothing unsafe | 20.8% → 100% |
 
 What each one is actually teaching:
 
@@ -56,6 +57,7 @@ What each one is actually teaching:
 8. **Routing** — accuracy without a cost line is a demo. Route by shape, then by stakes, then by measured confidence.
 9. **Injection** — retrieved text is untrusted input. Sanitise in, label the boundary, and gate tools on the way out.
 10. **Triage** — read the primary error line, order your rules by specificity, resist adding a keyword per case.
+11. **Capstone** — twelve tickets, ten requirements, one pipeline. Retrieval, sanitising, validation, gating, observation, loop bounds, grounding, and stopping well, simultaneously. The baseline is *cheaper* than the correct answer, which is the honest trade.
 
 ## Simulated by default, real when you want it
 
@@ -115,16 +117,15 @@ Ten is a term, not a year. The next ten, in the order they become useful:
 
 | # | drill | the number |
 |---|---|---|
-| 11 | memory and compression | fact retention after summarisation |
-| 12 | parallel fan-out | quality per unit of cost |
-| 13 | observability and replay | deterministic reproduction of a trace |
-| 14 | regression-safe iteration | shipped changes with zero regressions |
-| 15 | streaming and partial results | perceived latency |
-| 16 | long-context retrieval | needle accuracy at 100k tokens |
-| 17 | constrained output | schema-valid rate, zero retries |
-| 18 | self-consistency vs cost | accuracy bought per dollar |
-| 19 | multi-agent: when it helps | quality per unit of cost |
-| 20 | capstone | an end-to-end agent plus a published eval report |
+| 12 | memory and compression | fact retention after summarisation |
+| 13 | parallel fan-out | quality per unit of cost |
+| 14 | observability and replay | deterministic reproduction of a trace |
+| 15 | regression-safe iteration | shipped changes with zero regressions |
+| 16 | streaming and partial results | perceived latency |
+| 17 | long-context retrieval | needle accuracy at 100k tokens |
+| 18 | constrained output | schema-valid rate, zero retries |
+| 19 | self-consistency vs cost | accuracy bought per dollar |
+| 20 | multi-agent: when it helps | quality per unit of cost |
 
 Drills get built when you reach them, not all at once. A curriculum written in advance is a fantasy; a curriculum that grows from this week's failures is a plan.
 
