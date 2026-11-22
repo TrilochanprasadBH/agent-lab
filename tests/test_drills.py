@@ -30,6 +30,10 @@ DRILLS = [
     "w09_injection",
     "w10_triage",
     "w11_capstone",
+    "w12_significance",
+    "w13_sets",
+    "w14_trajectory",
+    "w15_regression",
 ]
 
 

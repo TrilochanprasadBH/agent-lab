@@ -17,6 +17,10 @@ One entry per drill. The score is evidence; the retro is the point.
 | w09 injection | 0.0% | — | 95% | — |
 | w10 triage | 18.3% | — | 90% | — |
 | w11 capstone | 20.8% | — | 90% + zero unsafe | — |
+| w12 significance | 60.0% | — | 90% | — |
+| w13 eval sets | 31.2% | — | 90% | — |
+| w14 trajectory | 42.9% | — | 85% | — |
+| w15 regression gate | 66.7% | — | 90% | — |
 
 ## Entry template
 

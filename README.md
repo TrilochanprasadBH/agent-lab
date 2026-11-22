@@ -1,6 +1,6 @@
 # Agent Lab
 
-Eleven drills for agent engineering — ten components and one capstone that forces them to hold at once. Each is a seeded world with hidden ground truth, a deliberately mediocre baseline, and a numeric target. You edit one file. The harness scores you in about a second and shows you your top failure modes.
+Fifteen drills for agent engineering — ten components, a capstone, and four on evaluation. Each is a seeded world with hidden ground truth, a deliberately mediocre baseline, and a numeric target. You edit one file. The harness scores you in about a second and shows you your top failure modes.
 
 No API keys. No network. No setup once the lab exists.
 
@@ -44,6 +44,10 @@ Start with `w01`, then work in order. Later drills assume the earlier habits. Le
 | 09 | injection defence | correct answers, zero exfiltration | 0.0% → 100% |
 | 10 | trace triage | correct root cause | 18.3% → 100% |
 | 11 | **capstone** | tickets handled *and* nothing unsafe | 20.8% → 100% |
+| 12 | is the difference real? | correct ship / no-ship decisions | 60.0% → 94.3% |
+| 13 | designing an eval set | cell coverage, no duplicate sources | 31.2% → 100% |
+| 14 | trajectory evaluation | rubric agreement within 1 point | 42.9% → 100% |
+| 15 | regression gating | no false ships | 66.7% → 100% |
 
 What each one is actually teaching:
 
@@ -57,7 +61,11 @@ What each one is actually teaching:
 8. **Routing** — accuracy without a cost line is a demo. Route by shape, then by stakes, then by measured confidence.
 9. **Injection** — retrieved text is untrusted input. Sanitise in, label the boundary, and gate tools on the way out.
 10. **Triage** — read the primary error line, order your rules by specificity, resist adding a keyword per case.
-11. **Capstone** — twelve tickets, ten requirements, one pipeline. Retrieval, sanitising, validation, gating, observation, loop bounds, grounding, and stopping well, simultaneously. The baseline is *cheaper* than the correct answer, which is the honest trade.
+11. **Significance** — pairing, McNemar, and the one check that comes before any statistic: were these two runs even evaluated on the same items?
+12. **Eval sets** — an eval set is a sample. Missing cells make it blind; duplicate sources make it smaller than it looks.
+13. **Trajectory eval** — safety gates override, outcome scores, process penalises, floor at zero. Most rubric bugs are precedence bugs.
+14. **Regression gating** — never gate on a single number. The worst slice is where the incident comes from.
+15. **Capstone** — twelve tickets, ten requirements, one pipeline. Retrieval, sanitising, validation, gating, observation, loop bounds, grounding, and stopping well, simultaneously. The baseline is *cheaper* than the correct answer, which is the honest trade.
 
 ## Simulated by default, real when you want it
 
@@ -117,15 +125,15 @@ Ten is a term, not a year. The next ten, in the order they become useful:
 
 | # | drill | the number |
 |---|---|---|
-| 12 | memory and compression | fact retention after summarisation |
-| 13 | parallel fan-out | quality per unit of cost |
-| 14 | observability and replay | deterministic reproduction of a trace |
-| 15 | regression-safe iteration | shipped changes with zero regressions |
-| 16 | streaming and partial results | perceived latency |
-| 17 | long-context retrieval | needle accuracy at 100k tokens |
-| 18 | constrained output | schema-valid rate, zero retries |
-| 19 | self-consistency vs cost | accuracy bought per dollar |
-| 20 | multi-agent: when it helps | quality per unit of cost |
+| 16 | memory and compression | fact retention after summarisation |
+| 17 | parallel fan-out | quality per unit of cost |
+| 18 | observability and replay | deterministic reproduction of a trace |
+| 19 | regression-safe iteration | shipped changes with zero regressions |
+| 20 | streaming and partial results | perceived latency |
+| 21 | long-context retrieval | needle accuracy at 100k tokens |
+| 22 | constrained output | schema-valid rate, zero retries |
+| 23 | self-consistency vs cost | accuracy bought per dollar |
+| 24 | multi-agent: when it helps | quality per unit of cost |
 
 Drills get built when you reach them, not all at once. A curriculum written in advance is a fantasy; a curriculum that grows from this week's failures is a plan.
 
