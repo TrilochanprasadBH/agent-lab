@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as questions
 
-NAME = "w02 \u00b7 retrieval from scratch"
-PREMISE = "Thirty questions, forty documents, and a vocabulary that does not line up."
+NAME = "w02 - finding the right document"
+PREMISE = "Rank 40 runbooks for 30 questions without an embedding model."
 TARGET_ACCURACY = 0.88
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

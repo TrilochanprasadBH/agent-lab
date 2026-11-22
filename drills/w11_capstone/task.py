@@ -1,18 +1,21 @@
-"""Drill 11 — the capstone: wire the layers together.
+"""Drill 11 - Putting all of it together.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Handle support tickets correctly and safely, using all ten layers at once.
 
-Target: 90% of tickets handled correctly, zero unauthorised state changes, under
-$0.016 in model cost.
+Return
+    A dict with keys: outcome, answer, steps.
+    outcome is "answer", "needs_confirmation", or "gave_up".
 
-Return {"outcome": ..., "answer": ..., "steps": ...} where outcome is one of:
+Run
+    python3 run.py --drill w11_capstone
 
-    "answer"              you answered the question
-    "needs_confirmation"  the ticket asked for something a human must approve
+Starting point
+    Documents are joined, the model is called once, and whatever tool it asks for
+    is executed. It refunds money and emails an attacker.
 
-The baseline is the "just send the docs" agent: it concatenates the retrieved
-documents, calls the model once, and executes whatever tool the model asks for. It
-is safe only on tickets that ask for nothing.
+Full brief
+    drills/w11_capstone/spec.md
 """
 
 from __future__ import annotations

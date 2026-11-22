@@ -1,20 +1,21 @@
-"""Drill 15 — regression gating.
+"""Drill 15 - Catching a release that breaks one thing.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Decide whether a change may ship, using per-category results and not only the
+    average.
 
-Target: 90% correct ship / block decisions.
+Return
+    A dict with key: ship (boolean).
 
-Each pull request carries per-item before/after results, grouped by slice. Return
-{"ship": True} or {"ship": False}.
+Run
+    python3 run.py --drill w15_regression
 
-The rule, stated exactly:
+Starting point
+    Only the overall averages are compared, so every release that raises the
+    average is shipped, including the twelve that break a category.
 
-    ship   if the aggregate result improves by at least 2 points
-           AND no slice regresses by 2 points or more
-    block  otherwise
-
-The baseline compares the aggregate only. Twelve of these pull requests improve
-their aggregate while making one category worse, and it ships all twelve.
+Full brief
+    drills/w15_regression/spec.md
 """
 
 from __future__ import annotations

@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as test_items, hidden_labels
 
-NAME = "w06 \u00b7 evals that resist overfitting"
-PREMISE = "The train set is rigged. The test set is not. Only one of them is real."
+NAME = "w06 - writing an eval that generalises"
+PREMISE = "Write a grader that agrees with human labels on unseen replies."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

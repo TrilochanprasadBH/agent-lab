@@ -1,16 +1,20 @@
-"""Drill 10 — triage from traces.
+"""Drill 10 - Naming the cause of a failure.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Identify the root cause of an agent failure from its trace.
 
-Target: 90% correct root causes across 60 traces.
+Return
+    One of: loop, context_overflow, bad_tool_arg, auth, timeout, wrong_tool.
 
-Allowed labels:
+Run
+    python3 run.py --drill w10_triage
 
-    loop  context_overflow  bad_tool_arg  auth  timeout  wrong_tool
+Starting point
+    The whole trace is searched for keywords. Every trace contains several, so the
+    first match is usually wrong.
 
-Read the trace. Every one contains the word "error", and most contain a keyword
-that belongs to a different cause. The baseline below greps for the first match
-and is wrong about two thirds of the time.
+Full brief
+    drills/w10_triage/spec.md
 """
 
 from __future__ import annotations

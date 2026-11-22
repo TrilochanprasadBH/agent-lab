@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as runs
 
-NAME = "w12 \u00b7 is the difference real?"
-PREMISE = "Three ways two eval runs can differ, and only one of them means better."
+NAME = "w12 - deciding whether a change is real"
+PREMISE = "Decide whether 35 eval-run comparisons represent real improvement."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

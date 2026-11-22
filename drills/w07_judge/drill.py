@@ -6,8 +6,8 @@ from agentlab.evals import make_card
 
 from .data import NoisyJudge, corpus as pairs
 
-NAME = "w07 \u00b7 judge calibration"
-PREMISE = "One judge, 36 pairs, and a position bias you can only see by asking twice."
+NAME = "w07 - calibrating a noisy judge"
+PREMISE = "Cancel a judge's position bias and outvote its noise within budget."
 TARGET_ACCURACY = 0.85
 MAX_COST_USD = 0.015
 SUPPORTS_REAL = False

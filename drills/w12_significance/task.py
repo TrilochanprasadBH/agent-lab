@@ -1,25 +1,20 @@
-"""Drill 12 — is the difference real?
+"""Drill 12 - Deciding whether a change is real.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Decide, from two eval runs, whether a change should ship.
 
-Target: 90% correct ship / no-ship decisions across 35 eval-run comparisons.
+Return
+    A dict with key: ship (boolean).
 
-Each item is one run pair:
+Run
+    python3 run.py --drill w12_significance
 
-    run.a   {item_id: passed}   the current system
-    run.b   {item_id: passed}   the candidate
+Starting point
+    The two averages are compared and B ships when it is higher. Noise and
+    different question sets are both treated as improvement.
 
-Return {"ship": True} or {"ship": False}.
-
-Three things to notice before you write anything:
-
-  1. Some pairs share item ids and some do not. What does that mean for comparing
-     their averages?
-  2. Two runs on the same items are *paired observations*, not two samples.
-  3. A difference of 2 points on 48 items is not automatically a difference.
-
-The baseline compares the two averages and ships if B is higher. It is right
-about half the time on runs that changed nothing.
+Full brief
+    drills/w12_significance/spec.md
 """
 
 from __future__ import annotations

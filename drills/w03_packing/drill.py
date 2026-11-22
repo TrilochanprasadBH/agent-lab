@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import BUDGET_TOKENS, corpus as questions, count_tokens
 
-NAME = "w03 \u00b7 context packing under a budget"
-PREMISE = "Evidence is chosen, not fetched. 120 tokens, three documents, no waste."
+NAME = "w03 - fitting evidence into a budget"
+PREMISE = "Fit the evidence for each question into a 120-word budget."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

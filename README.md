@@ -1,155 +1,299 @@
 # Agent Lab
 
-Fifteen drills for agent engineering — ten components, a capstone, and four on evaluation. Each is a seeded world with hidden ground truth, a deliberately mediocre baseline, and a numeric target. You edit one file. The harness scores you in about a second and shows you your top failure modes.
+Fifteen practice drills for building AI agents and for measuring whether they work.
 
-No API keys. No network. No setup once the lab exists.
+Every drill is a small program that runs offline in about two seconds. You edit one
+file, run one command, and get a number that says how well you did.
 
-## Why this shape
+---
 
-Reading about evals does not make you good at evals, any more than reading about swimming makes you a swimmer. What changes you is a repeated loop with a fast, honest signal:
+## 1. What this is
 
-```
-   read the brief  ->  change one thing  ->  see the number move  ->  write it down
-```
+This repository teaches the engineering around a language model. It does not teach
+how to train a model. It teaches what to do after you have a model:
 
-That loop has to fit in a session, or it does not happen. This one runs in two seconds.
+- how to get the right text in front of it
+- how to let it call tools safely
+- how to run it in a loop without it running away
+- how to measure whether any of it improved
+- how to keep it cheap, safe, and debuggable
 
-Every drill below exists because it has a *number* attached — not because it is an interesting topic. If you cannot measure it, it is a book club, not practice.
+Each drill isolates one of those problems. The problems are isolated on purpose: if
+one thing is wrong at a time, the number tells you what it was.
 
-## Quick start
+## 2. What you will be able to do afterwards
+
+By the end of drill 15 you will be able to:
+
+1. Build a retrieval system and measure its quality with a number.
+2. Fit evidence into a fixed context budget without losing the part that matters.
+3. Turn unreliable model output into validated tool calls.
+4. Write an agent loop with correct termination, including giving up.
+5. Write an eval set, a grader, and a judge, and know the failure modes of each.
+6. Decide whether a measured improvement is real or noise.
+7. Gate a release on per-category results instead of an average.
+8. Defend an AI system's reliability in a technical conversation.
+
+## 3. Requirements
+
+- Python 3.10 or newer (`python3 --version`)
+- A terminal
+- Nothing else: no API key, no network, no third-party packages
+
+The lab was built and tested on Python 3.15 on macOS. It uses only the standard
+library.
+
+## 4. First run
+
+From the root of this repository:
 
 ```sh
-python3 run.py --list                          # what is here
-python3 run.py --drill w02_retrieval           # score your attempt
-python3 run.py --drill w02_retrieval --failures 10   # see what is actually breaking
-python3 run.py --drill w02_retrieval --trace out.jsonl
-python3 run.py --drill w01_extraction --task solutions/w01_reference.py   # a passing version
-python3 -m unittest discover -s tests -v       # check the lab itself
+python3 run.py --list
 ```
 
-Start with `w01`, then work in order. Later drills assume the earlier habits. Leave `w11` for last — it is the exam.
+That prints every drill with its target. Then:
 
-## The ten
+```sh
+python3 run.py --drill w01_extraction
+```
 
-| # | drill | the number you move | baseline → reference |
-|---|---|---|---|
-| 01 | schema repair & verification | field accuracy under a cost cap | 70.8% → 99.5% |
-| 02 | retrieval from scratch | recall@3 and first-hit | 71.7% → 96.7% |
-| 03 | context packing under a budget | evidence coverage in 120 tokens | 11.1% → 94.4% |
-| 04 | tool schemas & malformed arguments | correct outcome, zero unsafe calls | 10.7% → 100% |
-| 05 | the agent loop | success inside a step budget | 20.0% → 100% |
-| 06 | evals that resist overfitting | agreement on a hidden split | 50.0% → 100% |
-| 07 | judge calibration | agreement per dollar | 66.7% → 100% |
-| 08 | routing and cost | accuracy under a hard cap | 100% but $0.060 → 100% at $0.0275 |
-| 09 | injection defence | correct answers, zero exfiltration | 0.0% → 100% |
-| 10 | trace triage | correct root cause | 18.3% → 100% |
-| 11 | **capstone** | tickets handled *and* nothing unsafe | 20.8% → 100% |
-| 12 | is the difference real? | correct ship / no-ship decisions | 60.0% → 94.3% |
-| 13 | designing an eval set | cell coverage, no duplicate sources | 31.2% → 100% |
-| 14 | trajectory evaluation | rubric agreement within 1 point | 42.9% → 100% |
-| 15 | regression gating | no false ships | 66.7% → 100% |
+You will see a scorecard. It will fail. That is expected: the scorecard is scoring
+the starting code, not you.
 
-What each one is actually teaching:
+## 5. How a drill works
 
-1. **Schema repair** — the model is not the fixable part. Repair, normalise, validate against arithmetic and against the source, retry only on a detected defect.
-2. **Retrieval** — IDF weighting, stemming, alias expansion, title and phrase boosts. Thirty lines that beat an embedding model on a small corpus.
-3. **Packing** — a context window is a budget. Selection is a covering problem, not a ranking problem.
-4. **Tools** — most agent bugs live in the twenty lines between "the model returned text" and "the tool ran". Confirmation is a human act, not a model opinion.
-5. **The loop** — the model has no memory. Anything it knows, you put there. Including that it is stuck.
-6. **Evals** — the train set is rigged with spurious correlations. A grader fitted to one sample of writers is not a model of quality.
-7. **Judges** — position bias is systematic and fixable by swapping. Noise is random and only outvoted. A deterministic judge given an identical prompt is not a new sample.
-8. **Routing** — accuracy without a cost line is a demo. Route by shape, then by stakes, then by measured confidence.
-9. **Injection** — retrieved text is untrusted input. Sanitise in, label the boundary, and gate tools on the way out.
-10. **Triage** — read the primary error line, order your rules by specificity, resist adding a keyword per case.
-11. **Significance** — pairing, McNemar, and the one check that comes before any statistic: were these two runs even evaluated on the same items?
-12. **Eval sets** — an eval set is a sample. Missing cells make it blind; duplicate sources make it smaller than it looks.
-13. **Trajectory eval** — safety gates override, outcome scores, process penalises, floor at zero. Most rubric bugs are precedence bugs.
-14. **Regression gating** — never gate on a single number. The worst slice is where the incident comes from.
-15. **Capstone** — twelve tickets, ten requirements, one pipeline. Retrieval, sanitising, validation, gating, observation, loop bounds, grounding, and stopping well, simultaneously. The baseline is *cheaper* than the correct answer, which is the honest trade.
+Every drill follows the same five steps.
 
-## Simulated by default, real when you want it
+```
+Step 1  Read the brief               drills/wNN_*/spec.md
+Step 2  Run the starting code        python3 run.py --drill wNN_*
+Step 3  Edit the task file           drills/wNN_*/task.py
+Step 4  Run it again                 python3 run.py --drill wNN_*
+Step 5  Stop when the target is met  the card says TARGET MET
+```
 
-Every drill runs against a simulated model: deterministic, offline, instant, free. That is what makes a two-second feedback loop possible, and it is where the systems discipline gets built — the simulator fails in the ways models characteristically fail, so your wrapper has to be genuinely defensive.
+Three files matter to you:
 
-Drill 01 also runs against a real model behind the same interface:
+| file | you should |
+| --- | --- |
+| `drills/wNN_*/spec.md` | read it first, once, completely |
+| `drills/wNN_*/task.py` | edit this; it is the only file you change |
+| `solutions/wNN_reference.py` | read it only after you have tried |
+
+Everything else is fixed. `agentlab/` is the machinery that runs and scores; you
+read it to understand the scoring, you do not change it.
+
+## 6. Reading the scorecard
+
+```
+ accuracy       70.8%   target 90%   [FAIL]
+```
+
+`accuracy` is the drill's main measure. Each drill defines it exactly in its spec.
+It is always a fraction between 0 and 1 shown as a percentage.
+
+```
+ cost          $0.0051   cap    $0.0120   [PASS]
+```
+
+Every model call has a token price. `cost` is what your run would have cost at real
+prices. The cap is the budget. A solution that is accurate but over budget fails.
+
+```
+ crashes            0   allowed 0   [PASS]
+```
+
+If your code raises an exception, that is a crash. Crashes are always failures. The
+harness catches them so that one bad item does not stop the run.
+
+```
+ model calls     1.00/doc   min 0.9   [PASS]
+```
+
+How many model calls you made per item. Some drills require you to actually use the
+model, so bypassing it fails.
+
+```
+ metrics
+   vendor              68.8%  ███████████████████.........
+```
+
+The per-field or per-metric breakdown. This is where you find what is wrong.
+
+```
+ failure modes
+    13x  vendor: missing / null
+```
+
+Failures grouped by cause. Fix classes of failures, not individual items.
+
+```
+ next move
+ - Model output is often not valid JSON. Repair it before you trust it.
+```
+
+The harness reads your failure pattern and suggests the next thing to try. It is a
+hint, not an answer.
+
+## 7. The drills
+
+Fifteen drills in four groups. The groups are ordered: each assumes the previous.
+
+### Group A: getting the right text to the model
+
+| # | drill | goal | baseline → reference | target |
+| --- | --- | --- | --- | --- |
+| 01 | schema repair | extract structured data from messy model output | 70.8% → 99.5% | 90% |
+| 02 | retrieval | find the right document for a question | 71.7% → 96.7% | 88% |
+| 03 | context packing | fit the needed evidence into a token budget | 11.1% → 94.4% | 90% |
+
+### Group B: letting the model act
+
+| # | drill | goal | baseline → reference | target |
+| --- | --- | --- | --- | --- |
+| 04 | tool calls | turn text into validated, authorised tool calls | 10.7% → 100% | 90% |
+| 05 | agent loop | run a multi-step task to a correct stop | 20.0% → 100% | 90% |
+| 09 | injection defence | read untrusted documents without obeying them | 0.0% → 100% | 95% |
+
+### Group C: measuring
+
+| # | drill | goal | baseline → reference | target |
+| --- | --- | --- | --- | --- |
+| 06 | evals | write a grader that generalises to unseen data | 50.0% → 100% | 90% |
+| 07 | judge calibration | get reliable preferences out of a noisy judge | 63.3% → 100% | 85% |
+| 10 | trace triage | name the root cause of an agent failure | 18.3% → 100% | 90% |
+| 12 | significance | decide whether a score change is real | 60.0% → 94.3% | 90% |
+| 13 | eval sets | build a sample that covers what matters | 31.2% → 100% | 90% |
+| 14 | trajectory eval | apply a rubric to a full agent run | 42.9% → 100% | 85% |
+| 15 | regression gating | catch a release that improves the average and breaks a category | 63.3% → 100% | 90% |
+
+### Group D: putting it together
+
+| # | drill | goal | baseline → reference | target |
+| --- | --- | --- | --- | --- |
+| 08 | routing | hit an accuracy target under a cost cap | 100% but over budget → 100% in budget | 92% |
+| 11 | capstone | satisfy ten requirements in one pipeline | 20.8% → 100% | 90% |
+
+## 8. Recommended order
+
+Work in numeric order. The numbers were assigned in dependency order, not topic
+order.
+
+```
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15
+```
+
+Two exceptions worth knowing:
+
+- **Drill 08** only teaches cost. It is safe to move later if you prefer.
+- **Drill 11** is the composition drill. Leave it for last. It assumes 01 through 09.
+
+## 9. How to use this with two hours a week
+
+Two sessions per week is enough.
+
+**Session A, about 75 minutes.**
+
+1. Read the spec once, completely, before touching code. Ten minutes.
+2. Run the starting code. Look at the failure modes for two minutes.
+3. Make one change. Run. Read the number.
+4. Make one more change. Run. Stop even if you have not reached the target.
+
+**Session B, about 45 minutes.**
+
+1. Run again. Confirm the number is the same. If it is not, you changed something
+   you did not mean to.
+2. Finish the drill, or write down why you are stuck.
+3. Fill in the entry in `progress.md`. Four lines is enough.
+
+The written note is the part that makes it stick. Without it you will solve the
+same class of problem three times and not notice.
+
+## 10. Vocabulary
+
+AI engineering has a lot of names for a small number of ideas. `docs/glossary.md`
+defines every term used in this repository in one or two sentences.
+
+The eight you need before drill 01:
+
+| term | meaning |
+| --- | --- |
+| model | a function that takes text and returns text |
+| prompt | the text you give the model |
+| context window | the maximum amount of text the model can consider at once |
+| token | the unit models count text in, roughly three quarters of a word |
+| tool call | a structured request from the model to run a function |
+| agent | a loop that calls a model, runs tools, and feeds results back |
+| eval | a repeatable test that scores output against expected behaviour |
+| ground truth | the correct answer, known in advance, used to score |
+
+## 11. Running a drill against a real model
+
+Only drill 01 supports this. The other fourteen are deterministic worlds, and a
+real model would change the ground truth rather than the lesson.
 
 ```sh
 export OPENROUTER_API_KEY=sk-or-...
 python3 run.py --drill w01_extraction --provider openrouter --model <model-id> --limit 5
 ```
 
-Responses are cached on disk, so an unchanged attempt costs nothing to rerun. See `docs/real-models.md` for costs, noise, and how to add another provider.
+Read `docs/real-models.md` before spending money. It covers cost, caching,
+determinism, and how to add another provider.
 
-The other nine are deterministic worlds — a real model would change the ground truth, not the lesson — and the harness refuses `--provider` for them rather than pretending.
+## 12. Checking the lab itself
 
-## How a drill is scored
-
-| line | meaning |
-|---|---|
-| accuracy | the drill's headline metric, or the mean of its metrics |
-| cost | what your calls would have cost in real tokens |
-| crashes | exceptions your task raised; must be zero |
-| model calls | calls per item; a bypass is not a solution |
-| latency p95 | from the simulated model |
-| failure modes | clustered by kind, so you fix classes not instances |
-
-Normalization is deliberately forgiving. `"1.350,00 EUR"` and `1350.00` are the same money, `"12 March 2026"` is a valid date. You are judged on whether you understood the problem, not on whether you guessed the serialization.
-
-## The loop, weekly
-
-At 2–3 hours a week, the rhythm that works is two sessions:
-
-**Session A (about 90 minutes)** — read the brief, run the baseline, make one substantial change, look at failures, make one more. Stop while you still have a clear next move.
-
-**Session B (about 45 minutes)** — rerun, try a different seed where the drill supports it, run the tests, then write the retro in `progress.md`.
-
-The retro is not bookkeeping. It is the difference between ten drills that taught you one lesson and ten drills that taught you ten.
-
-## Adding a drill
-
-A drill is a directory under `drills/` with five files:
-
-```
-drills/wNN_name/
-    data.py     seeded corpus, each item carrying its ground truth
-    task.py     the file the learner edits; starts deliberately weak
-    drill.py    NAME, TARGET_ACCURACY, MAX_COST_USD, TASK_NAME, corpus(), build_model(), score()
-    spec.md     the brief, with the reasoning and a "done looks like" list
+```sh
+python3 -m unittest discover -s tests -v
 ```
 
-`solutions/wNN_reference.py` proves it is solvable. `tests/test_drills.py` will then check the new drill automatically: the baseline must fail, the reference must pass, and both scores must be deterministic.
+These tests verify that the lab is still fair: every starting point must fail,
+every reference solution must pass, and every score must be reproducible. If you
+change the harness and a drill becomes unsolvable, these tests catch it.
 
-## Still ahead
+## 13. Adding a drill
 
-Ten is a term, not a year. The next ten, in the order they become useful:
+Create a directory `drills/wNN_name/` containing five files:
 
-| # | drill | the number |
-|---|---|---|
-| 16 | memory and compression | fact retention after summarisation |
-| 17 | parallel fan-out | quality per unit of cost |
-| 18 | observability and replay | deterministic reproduction of a trace |
-| 19 | regression-safe iteration | shipped changes with zero regressions |
-| 20 | streaming and partial results | perceived latency |
-| 21 | long-context retrieval | needle accuracy at 100k tokens |
-| 22 | constrained output | schema-valid rate, zero retries |
-| 23 | self-consistency vs cost | accuracy bought per dollar |
-| 24 | multi-agent: when it helps | quality per unit of cost |
+| file | purpose |
+| --- | --- |
+| `data.py` | the items, generated deterministically, with ground truth |
+| `task.py` | the starting code the learner edits |
+| `drill.py` | configuration and the scoring function |
+| `spec.md` | goal, background, steps, scoring, done criteria |
+| `__init__.py` | empty |
 
-Drills get built when you reach them, not all at once. A curriculum written in advance is a fantasy; a curriculum that grows from this week's failures is a plan.
+`drill.py` must define:
 
-## Layout
+```python
+NAME             str    # shown in the header
+PREMISE          str    # one line, shown in the header
+TARGET_ACCURACY  float  # the pass threshold
+MAX_COST_USD     float  # the budget
+SUPPORTS_REAL    bool   # whether --provider openrouter is allowed
+TASK_NAME        str    # the function in task.py the learner implements
+
+def corpus() -> list: ...            # the items to run
+def build_model(seed: int): ...      # the model or world
+def score(results, model, target_accuracy, max_cost_usd) -> Scorecard: ...
+```
+
+Add the drill name to `DRILLS` in `tests/test_drills.py` and to
+`progress.md`. The tests will then check your baseline fails and your reference
+passes.
+
+## 14. Repository layout
 
 ```
-agentlab/          the harness — read it, do not edit it
-  model.py         deterministic flaky model with token accounting
-  providers.py     provider seam: simulated, scripted, OpenRouter, your own
-  tools.py         schema-validated tool registry with a confirmation gate
-  evals.py         normalization, field scoring, failure clustering
-  drill.py         corpus runner
-drills/            ten drills, each with data, task, drill, spec
-solutions/         reference solutions, after you have tried
-tests/             checks that the drills are fair and solvable
-docs/              notes on running against real models
-run.py             the runner
-progress.md        your retro log
+agentlab/              the harness, shared by every drill
+  model.py             a simulated model that fails in realistic ways
+  providers.py         provider interface: simulated, scripted, OpenRouter
+  tools.py             schema-validated tool registry with a confirmation gate
+  evals.py             normalization, field scoring, scorecard
+  drill.py             runs a task over a corpus
+drills/                fifteen drills, each self-contained
+solutions/             one reference solution per drill
+tests/                 checks that the lab is fair and reproducible
+docs/                  glossary and real-model notes
+run.py                 the entry point
+progress.md            your written log
 ```

@@ -1,17 +1,20 @@
-"""Drill 7 — judging output you cannot read by hand.
+"""Drill 07 - Getting a reliable answer out of a noisy judge.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Combine several noisy judgements into one reliable preference.
 
-Target: 85% agreement with the human preference labels, under a $0.015 cap.
+Return
+    "A", "B", or "tie".
 
-The judge is right about 86% of the time on a single call, and it has a position
-bias: when it is unsure it prefers whichever response came first.
+Run
+    python3 run.py --drill w07_judge
 
-One call per pair is not enough. Two calls, in both orders, is usually enough —
-and it is the classic fix for this exact defect. More samples reduce noise but
-cost money, and the cap is real.
+Starting point
+    The judge is called once, in one order, and its verdict is returned. Position
+    bias is not corrected and noise is not outvoted.
 
-Return "A", "B" or "tie".
+Full brief
+    drills/w07_judge/spec.md
 """
 
 from __future__ import annotations

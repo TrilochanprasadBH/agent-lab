@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as traces
 
-NAME = "w14 \u00b7 trajectory evaluation"
-PREMISE = "The rubric is easy. Applying it the same way every time is not."
+NAME = "w14 - scoring a whole agent run"
+PREMISE = "Apply a written rubric to 28 complete agent trajectories."
 TARGET_ACCURACY = 0.85
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

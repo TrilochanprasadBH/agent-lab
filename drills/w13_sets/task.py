@@ -1,19 +1,20 @@
-"""Drill 13 — designing an eval set.
+"""Drill 13 - Designing an eval set.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Select 32 items that cover all 16 categories without repeating a source.
 
-Target: 90% on the two metrics — cell coverage and no duplicate sources.
+Return
+    A list of 32 item ids.
 
-You are given a pool of 240 candidate items. Select exactly 32 and return the list
-of item ids.
+Run
+    python3 run.py --drill w13_sets
 
-Read `data.py`. Each item has a `tag`, a `difficulty` and a `source`. The score
-asks two questions:
+Starting point
+    The first 32 items in the pool are taken. The pool is sorted by tag, so this
+    covers two categories out of sixteen.
 
-  - does your selection contain at least 2 items for every (tag, difficulty) cell?
-  - did you avoid selecting two items from the same source document?
-
-The baseline takes the first 32 items from the pool. The pool is sorted by tag.
+Full brief
+    drills/w13_sets/spec.md
 """
 
 from __future__ import annotations

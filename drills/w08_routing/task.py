@@ -1,19 +1,21 @@
-"""Drill 8 — routing by cost.
+"""Drill 08 - Hitting a quality target under a cost cap.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Send each question to a tier that can answer it, and no more than that.
 
-Target: 92% correct answers, under $0.030 total.
+Return
+    A dict with keys: answer, tier.
+    tier is "cheap" or "strong", and must match what you wrote in the prompt.
 
-Two tiers, and you pick per query by writing "tier: cheap" or "tier: strong" into
-the prompt:
+Run
+    python3 run.py --drill w08_routing
 
-    cheap    $0.0002   right on lookups, wrong on reasoning
-    strong   $0.0015   right on everything
+Starting point
+    Every question goes to the strong tier. Accuracy is 100% and the cost is twice
+    the cap.
 
-Return {"answer": ..., "tier": ...}.
-
-The baseline sends everything to the strong tier. It is 100% accurate and
-$0.060 over budget.
+Full brief
+    drills/w08_routing/spec.md
 """
 
 from __future__ import annotations

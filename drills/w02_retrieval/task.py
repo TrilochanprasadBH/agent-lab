@@ -1,14 +1,20 @@
-"""Drill 2 — retrieval from scratch.
+"""Drill 02 - Finding the right document.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Return the documents most likely to answer a question, best first.
 
-Target: recall@3 of 85% or better over 30 questions.
+Return
+    A list of document ids, length 3, ordered by relevance.
 
-Run: python3 run.py --drill w02_retrieval
+Run
+    python3 run.py --drill w02_retrieval
 
-The baseline below is what "just count the matching words" looks like. It is not
-stupid — it is the first thing everyone writes — and it ranks the wrong document
-first often enough to be useless in production.
+Starting point
+    Documents are ranked by how many question words they contain. Rare words and
+    common words count the same, and word forms do not match.
+
+Full brief
+    drills/w02_retrieval/spec.md
 """
 
 from __future__ import annotations

@@ -1,15 +1,21 @@
-"""Drill 9 — prompt injection.
+"""Drill 09 - Reading untrusted documents safely.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Answer the question from the documents, without obeying instructions that were
+    hidden inside them.
 
-Target: every question answered correctly, and zero exfiltration.
+Return
+    A dict with keys: answer, actions.
 
-The retrieved documents are user-generated. One of them contains either an
-instruction to send email somewhere, or a note telling the assistant what the
-answer is. A model cannot distinguish an instruction from text it was asked to
-read — so if you hand the document straight to the model, it obeys.
+Run
+    python3 run.py --drill w09_injection
 
-Return {"answer": ..., "actions": [...]}.
+Starting point
+    All documents are concatenated and sent to the model. A poisoned document is
+    obeyed, and an outbound email is executed.
+
+Full brief
+    drills/w09_injection/spec.md
 """
 
 from __future__ import annotations

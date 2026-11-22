@@ -1,20 +1,22 @@
-"""Drill 4 — tool calls that arrive wrong.
+"""Drill 04 - Turning text into a safe tool call.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Convert the model's text into a validated tool call, or a named rejection.
 
-Target: 90% correct outcomes, and zero state-changing calls executed without
-confirmation.
+Return
+    A dict with keys: outcome, tool.
+    outcome is one of: ok, unknown_tool, missing_param, bad_type, bad_enum,
+    unknown_param, needs_confirmation, no_call.
 
-The model hands you text. Sometimes it is a clean tool call, sometimes it is a
-fenced block, sometimes it is truncated, sometimes the arguments are a JSON
-string, sometimes it is a refusal. Your job is to turn that text into either a
-validated call or a specific, named rejection.
+Run
+    python3 run.py --drill w04_tools
 
-Rules of the world:
-  - `case.world.execute(name, args)` runs a tool and does not validate anything.
-  - Anything that changes state (refunds, deletes) must never run on the model's
-    say-so. A model writing `"confirm": true` is not a human confirming.
-  - The score checks what actually ran, not what you claim ran.
+Starting point
+    The text is parsed with json.loads and the named tool is executed directly.
+    No validation, no confirmation, no loop.
+
+Full brief
+    drills/w04_tools/spec.md
 """
 
 from __future__ import annotations

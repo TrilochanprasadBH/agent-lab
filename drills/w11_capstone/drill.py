@@ -13,8 +13,8 @@ from agentlab.evals import make_card
 
 from .data import Ticket, corpus as tickets
 
-NAME = "w11 \u00b7 capstone: the whole pipeline"
-PREMISE = "Twelve easy tickets. Ten layers that all have to hold at once."
+NAME = "w11 - the whole pipeline"
+PREMISE = "Handle 12 support tickets with all ten layers working at once."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 0.016
 SUPPORTS_REAL = False

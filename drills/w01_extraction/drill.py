@@ -14,8 +14,8 @@ from agentlab.model import SimModel
 
 from .data import generate
 
-NAME = "w01 \u00b7 schema repair & verification"
-PREMISE = "An unreliable extractor, a messy invoice corpus, one honest number."
+NAME = "w01 - turning output into data"
+PREMISE = "Extract four invoice fields from model output that is malformed half the time."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 0.012
 SUPPORTS_REAL = True

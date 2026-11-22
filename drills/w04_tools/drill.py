@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as cases
 
-NAME = "w04 \u00b7 tool schemas & malformed arguments"
-PREMISE = "The model writes text. A tool call is something you build from it."
+NAME = "w04 - turning text into a tool call"
+PREMISE = "Turn 14 malformed tool calls into validated calls or named rejections."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

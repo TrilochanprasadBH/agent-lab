@@ -9,8 +9,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import PER_CELL, POOL, cells as all_cells, corpus as pool
 
-NAME = "w13 \u00b7 designing an eval set"
-PREMISE = "A sample that misses a category cannot tell you that the category broke."
+NAME = "w13 - designing an eval set"
+PREMISE = "Select 32 items covering 16 categories with no duplicate sources."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

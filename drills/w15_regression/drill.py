@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as prs
 
-NAME = "w15 \u00b7 regression gating"
-PREMISE = "The average went up. One category went down. Which one ships?"
+NAME = "w15 - gating a release on every category"
+PREMISE = "Gate 30 pull requests on per-category results, not the average."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

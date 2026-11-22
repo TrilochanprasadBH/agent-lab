@@ -1,14 +1,22 @@
-"""Drill 1 — structured extraction from messy invoices.
+"""Drill 01 - Turning model output into data.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Extract four fields from invoices, when the model's output is malformed about
+    half the time.
 
-Target: 90% field accuracy, under $0.030 total, zero crashes.
-Run:    python3 run.py
+Return
+    A dict with keys: vendor, invoice_date, currency, subtotal, tax, total.
+    invoice_date is ISO 8601 (YYYY-MM-DD). currency is a three-letter code.
 
-The model returns JSON most of the time. The rest of the time it returns prose,
-a truncated object, numbers as strings, the wrong party, or a refusal. Your job
-is not to write a better prompt. Your job is to build the layer that turns an
-unreliable response into a trustworthy record.
+Run
+    python3 run.py --drill w01_extraction
+
+Starting point
+    The response is parsed with json.loads. Anything wrapped in prose, truncated,
+    or containing a trailing comma is thrown away.
+
+Full brief
+    drills/w01_extraction/spec.md
 """
 
 from __future__ import annotations

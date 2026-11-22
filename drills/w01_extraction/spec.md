@@ -1,96 +1,180 @@
-# Drill 01 — schema repair & verification
+# Drill 01 — Turning model output into data
 
-**Target:** 90% field accuracy, under **$0.012** total cost, zero crashes.
-
-```
-python3 run.py
-```
-
-You edit `task.py`. Nothing else.
+| | |
+| --- | --- |
+| **Goal** | Convert unreliable text from a model into validated records. |
+| **Outcome** | A function that extracts four invoice fields with 90% accuracy, under a cost cap, from a model that corrupts its own output. |
+| **Target** | 90% accuracy, cost under $0.012, zero crashes. |
+| **Time** | 60 to 90 minutes. |
 
 ---
 
-## The setup
+## 1. Why this drill exists
 
-You are given 48 invoices and a model that is roughly right and reliably messy.
-On any given call it may:
+A model returns a string. Your program needs a record: a vendor name, a date, a
+currency, an amount.
 
-| behaviour | how it shows up |
-|---|---|
-| prose wrapper | `Sure! Here's the data…` plus a fenced block |
-| truncated JSON | the object stops mid-field, no closing brace |
-| trailing comma | `"total": 4116.55,}` |
-| numbers as strings | `"total": "4,116.55"` |
-| wrong party | returns the *customer* as the vendor |
-| subtotal as total | arithmetic no longer adds up |
-| refusal | a polite sentence instead of data |
+Almost every reliability problem in an AI application lives in that gap. The model
+is not the part you control. The conversion is.
 
-Every one of these is something you can detect. None of them is fixed by
-phrasing the prompt better, which is the point.
+This drill gives you a model that is roughly right and frequently malformed, and
+asks you to build the layer that turns its output into something you can trust.
 
-## The rules
+## 2. What you are given
 
-1. Call the model at least once per document. A pure regex over the invoice
-   solves the corpus and teaches you nothing, so the harness rejects it.
-2. No network, no API keys. The model is local and deterministic.
-3. You may read `agentlab/` to understand the scoring. You may not edit it —
-   if you change the grader, you are measuring your grader.
+- `data.py`: 48 invoices, generated deterministically, each with ground truth.
+- `model.py`: a simulated model. It reads the invoice with regular expressions,
+  then corrupts its own answer about half the time.
+- `task.py`: the file you edit. It currently parses the response naively.
 
-## What you are actually practising
+The failure types, and how often they occur:
 
-The four moves from this drill generalise to every extraction, classification,
-or tool-calling system you will ever build:
+| behaviour | example | probability |
+| --- | --- | --- |
+| clean JSON | `{"total": 4116.55}` | about half |
+| prose then JSON | `Sure! Here's the data: {...}` | 12% |
+| truncated object | `{"total": 4116` | 12% |
+| numbers as strings | `"total": "4,116.55"` | 6% |
+| wrong party | the customer's name instead of the vendor | 12% |
+| subtotal returned as total | arithmetic no longer adds up | 10% |
+| trailing comma | `{"total": 4116.55,}` | 10% |
+| refusal | a polite sentence instead of data | 6% |
 
-1. **Repair before parse.** Model output is text, not JSON. Treat it as text.
-2. **Normalize at the boundary.** One place converts money, dates, currencies.
-   Downstream code should never see `"1.350,00 EUR"`.
-3. **Validate with arithmetic and with the source.** `subtotal + tax == total`
-   is a free integrity check. So is "does this vendor actually appear on the
-   supplier line?"
-4. **Retry selectively.** Retry because you detected a specific defect, not
-   because you feel nervous. And after N attempts, return your best partial
-   record rather than nothing.
+## 3. How to run it
 
-## Hint ladder
+From the repository root:
 
-Try to finish before opening these.
+```sh
+python3 run.py --drill w01_extraction
+```
 
-<details><summary>Hint 1 — where the points are lost</summary>
+See what broke:
 
-Run with `--failures 10`. Roughly half the missing fields come from a handful of
-documents whose JSON never parsed at all. Fixing parsing alone is worth about
-fifteen points.
-</details>
+```sh
+python3 run.py --drill w01_extraction --failures 10
+```
 
-<details><summary>Hint 2 — repairing truncated JSON</summary>
+Check you did not tune to one random seed:
 
-A truncated object is one with unbalanced braces and possibly an unterminated
-string. You can walk the fragment, track whether you are inside a string and how
-many braces are open, then append the closers. If the tail ends mid-value, cut
-back to the last comma first.
-</details>
+```sh
+python3 run.py --drill w01_extraction --seed 11
+```
 
-<details><summary>Hint 3 — catching the wrong vendor</summary>
+See a working version, after you have tried:
 
-The corrupted vendor is always the party *being billed*. Compare the predicted
-vendor against the document's bill-to line and its supplier line. If it matches
-the bill-to and not the supplier, you have a defect — and a very cheap one to
-detect.
-</details>
+```sh
+python3 run.py --drill w01_extraction --task solutions/w01_reference.py
+```
 
-<details><summary>Hint 4 — the free arithmetic check</summary>
+## 4. Background: the idea from first principles
 
-`subtotal + tax` must equal `total`. When the model returns the subtotal as the
-total, this fails immediately. Note the blind spot: on a 0% tax invoice the two
-are equal and this check cannot help you. Every heuristic has one.
-</details>
+**A model call returns text.** Not a dict, not JSON, not a typed object. Whatever
+structure you want has to be built on your side, and every step of that construction
+can fail.
 
-## Done looks like
+There are three distinct kinds of failure, and they need three different fixes.
 
-- [ ] `python3 run.py` reports TARGET MET
-- [ ] cost is under budget without blanket retries
-- [ ] `python3 run.py --seed 11` also passes — you did not tune to one seed
-- [ ] you can explain, in two sentences, which defect each of your checks catches
+**Failure 1: the response is not parseable as JSON.**
 
-Once it passes, write it up in `progress.md`. The retro is the part that makes
-the skill stick; the score is just evidence.
+JSON is a strict format. A trailing comma, a missing brace, or a sentence in front
+of the object makes the whole thing invalid. One of the most common causes is
+truncation: the model stopped because it hit a length limit, leaving an unbalanced
+object.
+
+The fix is mechanical: strip text before the first `{`, ignore code fences, remove
+trailing commas, and if the object is unterminated, close the open braces.
+
+**Failure 2: the response parses but the values are the wrong type.**
+
+`"total": "4,116.55"` is valid JSON. It is not a number. It also cannot be converted
+with `float()` because of the thousands separator. Some locales write `1.350,00`
+for the same amount.
+
+The fix is normalisation: one function that turns any reasonable representation of
+money into a float, and one that turns any date format into ISO 8601, and one that
+turns a currency symbol into a code. Do this once, at the boundary, so the rest of
+your program never sees the mess.
+
+**Failure 3: the response parses, the types are right, and the value is wrong.**
+
+The model returned `Stark Industrial` as the vendor. That is the customer. It
+returned the subtotal as the total. It dropped a field.
+
+No amount of parsing or normalisation fixes this, because nothing about the value
+looks malformed. You need an independent check.
+
+Two checks are available here for free:
+
+- **Arithmetic.** `subtotal + tax` must equal `total`. If it does not, one of the
+  three values is wrong.
+- **The source document.** The vendor must appear on the supplier line of the
+  invoice, not only on the customer line.
+
+Both checks are cheap, and both catch failures the parser cannot see.
+
+**Retrying.** When a check fails, you can ask the model again. A retry costs money
+and is not guaranteed to help, so retry only when you have detected a specific
+defect. Sending the same prompt twice asks the same question twice; changing the
+prompt changes the answer. After a small number of attempts, return your best
+partial record rather than nothing.
+
+**Why not parse the invoice directly?** You could, and on this dataset it would
+work, because the invoices are generated from a template. The harness rejects it:
+you must call the model. In real work the reason is stronger. The documents you
+receive are not generated from your template, there are thousands of formats, and
+the day the format changes your parser silently breaks. The model absorbs format
+variation; your code should absorb the model's unreliability.
+
+## 5. The task, step by step
+
+1. Run the starting code. Read the failure modes. Roughly half of the missing
+   fields come from a handful of documents whose JSON never parsed.
+2. Write `parse_json(text)` that handles fences, prose, trailing commas, and
+   truncation.
+3. Write normalisers for money, currency, and date. Use them on every field.
+4. Add the arithmetic check. Retry when it fails.
+5. Add the vendor check against the document. Retry when it fails.
+6. Keep the best partial record. Do not return `{}` after three failures.
+7. Run with `--seed 11` to confirm you did not tune to one sample.
+
+## 6. How you are scored
+
+Four fields are scored: `vendor`, `invoice_date`, `currency`, `total`.
+
+| field | match rule |
+| --- | --- |
+| vendor | equal after lowercasing and removing punctuation and spaces |
+| invoice_date | equal as a calendar date, after parsing any common format |
+| currency | equal as a three-letter code |
+| total | within 0.01 of the true amount |
+
+`accuracy` is the mean of the four field accuracies, each computed over all 48
+documents.
+
+`cost` is the sum of the simulated token costs of every call you made. The cap is
+$0.012. A solution that reaches 95% for $0.02 fails.
+
+`crashes` must be zero. An exception counts as a crash and the item scores zero.
+
+`model calls` must average at least 0.9 per document. This prevents solving the
+drill by parsing the invoices directly.
+
+The drill passes when accuracy is at least 90%, cost is within the cap, and there
+are no crashes.
+
+## 7. Done when
+
+- [ ] `python3 run.py --drill w01_extraction` reports TARGET MET
+- [ ] the run with `--seed 11` also reports TARGET MET
+- [ ] you can name which specific check catches each corruption type
+- [ ] your cost is comfortably under the cap without retrying everything
+- [ ] you have written the entry in `progress.md`
+
+## 8. Carry forward
+
+When a model produces structured data, use four steps in this order:
+
+1. repair the text
+2. normalise the values
+3. validate against arithmetic and against the source
+4. retry only on a detected defect, and return the best partial result

@@ -1,19 +1,21 @@
-"""Drill 5 — the agent loop.
+"""Drill 05 - Running a task that takes several steps.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Run a multi-step task to a correct answer, or stop deliberately when stuck.
 
-Target: 90% correct, every case inside its step budget.
+Return
+    A dict with keys: kind, text, steps.
+    kind is "answer" or "gave_up". steps is the number of model calls you made.
 
-Implement `solve(case, model) -> {"kind", "text", "steps"}`.
+Run
+    python3 run.py --drill w05_loop
 
-  kind   "answer" if you produced an answer, "gave_up" if you stopped on purpose
-  text   the answer text, or your reason for stopping
-  steps  how many model calls you made
+Starting point
+    The model is called once and whatever comes back is returned. No tool results
+    reach the next call because there is no next call.
 
-The model has no memory. If you do not put the tool result into the next prompt,
-the model cannot use it, and the model will happily ask for the same thing again.
-
-The baseline calls the model once and returns whatever it said.
+Full brief
+    drills/w05_loop/spec.md
 """
 
 from __future__ import annotations

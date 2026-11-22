@@ -1,20 +1,21 @@
-"""Drill 6 — writing an eval that generalises.
+"""Drill 06 - Writing an eval that generalises.
 
-THIS IS THE FILE YOU EDIT.
+Goal
+    Decide whether a support reply is good, in a way that holds on data you have
+    not seen.
 
-Target: 90% agreement with the human labels on the held-out test set.
+Return
+    True for a good reply, False for a bad one.
 
-Study the train set:
+Run
+    python3 run.py --drill w06_evals
 
-    python3 -c "from drills.w06_evals.data import train_examples; \
-        [print(label, '|', r.text) for r, label in train_examples()[:6]]"
+Starting point
+    Replies longer than 150 characters are called good. That correlates with the
+    label in the training split and not in the test split.
 
-Then write a grader that encodes *why* a reply is good, not what the good replies
-in that split happen to look like.
-
-Scoring uses the test split, whose labels you cannot see from here. A grader that
-keys on surface features of the train split will score well below the target, and
-that is the point.
+Full brief
+    drills/w06_evals/spec.md
 """
 
 from __future__ import annotations

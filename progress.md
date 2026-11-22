@@ -1,65 +1,60 @@
-# Progress
+# Progress log
 
-One entry per drill. The score is evidence; the retro is the point.
+One entry per drill. The score is the evidence. The written note is what makes it
+stay.
+
+## How to use this file
+
+After each drill, add an entry using the template at the bottom. Four short
+sentences is enough. The point is to record what you changed and what happened,
+while you still remember it.
 
 ## Scoreboard
 
-| drill | baseline | best | target | date |
-|---|---|---|---|---|
-| w01 schema repair | 70.8% | — | 90% | — |
-| w02 retrieval | 71.7% | — | 88% | — |
-| w03 packing | 11.1% | — | 90% | — |
-| w04 tools | 10.7% | — | 90% | — |
-| w05 loop | 20.0% | — | 90% | — |
-| w06 evals | 50.0% | — | 90% | — |
-| w07 judge | 66.7% | — | 85% | — |
-| w08 routing | 100% / $0.060 | — | 92% / $0.030 | — |
-| w09 injection | 0.0% | — | 95% | — |
-| w10 triage | 18.3% | — | 90% | — |
-| w11 capstone | 20.8% | — | 90% + zero unsafe | — |
-| w12 significance | 60.0% | — | 90% | — |
-| w13 eval sets | 31.2% | — | 90% | — |
-| w14 trajectory | 42.9% | — | 85% | — |
-| w15 regression gate | 66.7% | — | 90% | — |
+Fill in the `best` and `date` columns as you go. Leave them blank until you have
+done the drill.
+
+| # | drill | starting score | your best | target | date |
+| --- | --- | --- | --- | --- | --- |
+| 01 | schema repair | 70.8% | | 90% | |
+| 02 | retrieval | 71.7% | | 88% | |
+| 03 | context packing | 11.1% | | 90% | |
+| 04 | tool calls | 10.7% | | 90% | |
+| 05 | agent loop | 20.0% | | 90% | |
+| 06 | evals | 50.0% | | 90% | |
+| 07 | judge calibration | 66.7% | | 85% | |
+| 08 | routing | 100% but $0.060 | | 92% under $0.030 | |
+| 09 | injection defence | 0.0% | | 95% | |
+| 10 | trace triage | 18.3% | | 90% | |
+| 11 | capstone | 20.8% | | 90% and zero unsafe | |
+| 12 | significance | 60.0% | | 90% | |
+| 13 | eval sets | 31.2% | | 90% | |
+| 14 | trajectory eval | 42.9% | | 85% | |
+| 15 | regression gating | 63.3% | | 90% | |
 
 ## Entry template
 
+Copy this block for each drill.
+
 ```md
-### wNN — name (score: NN.N% -> NN.N%, cost $0.NNNN)
+### Drill NN — name
 
-**What I changed**
+Date:
+Start: NN.N%   Best: NN.N%   Cost: $0.NNNN
+
+What I changed
 -
 
-**What moved the number**
+What moved the number
 -
 
-**What surprised me**
+What surprised me
 -
 
-**The rule I am taking forward**
--
-
-**Next time, first move**
+The rule I am taking forward
 -
 ```
 
----
+## Entries
 
-## w01 — schema repair & verification
-
-**Status:** not started.
-
-**What I changed**
--
-
-**What moved the number**
--
-
-**What surprised me**
--
-
-**The rule I am taking forward**
--
-
-**Next time, first move**
--
+Nothing yet. Add your first entry after drill 01.

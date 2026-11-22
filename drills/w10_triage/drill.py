@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as traces
 
-NAME = "w10 \u00b7 trace triage"
-PREMISE = "Six failure modes, sixty traces, and a lot of convincing noise."
+NAME = "w10 - naming the cause of a failure"
+PREMISE = "Assign the correct root cause to 60 traces full of misleading lines."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False

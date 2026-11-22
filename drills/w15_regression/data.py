@@ -32,9 +32,7 @@ def _slice(rng: random.Random, n: int, base: float, delta: float) -> tuple[tuple
     pairs = []
     for _ in range(n):
         before = rng.random() < base
-        if rng.random() < 0.04:  # ordinary flake
-            after = not before
-        elif delta >= 0:
+        if delta >= 0:
             after = before or (rng.random() < delta)
         else:
             after = before and not (rng.random() < -delta)
@@ -74,9 +72,9 @@ def build(seed: int = 2027) -> list[PullRequest]:
     # 12 genuinely good changes
     for _ in range(12):
         slices = {
-            "refunds": _slice(rng, 24, 0.70, rng.uniform(0.12, 0.22)),
-            "international": _slice(rng, 24, 0.60, 0.0),
-            "long-context": _slice(rng, 24, 0.55, 0.0),
+            "refunds": _slice(rng, 48, 0.70, rng.uniform(0.30, 0.45)),
+            "international": _slice(rng, 12, 0.60, 0.0),
+            "long-context": _slice(rng, 12, 0.55, 0.0),
         }
         add(f"improve refund extraction (v{rng.randint(2, 9)})", slices)
 
@@ -92,9 +90,9 @@ def build(seed: int = 2027) -> list[PullRequest]:
     # 6 changes that moved nothing
     for _ in range(6):
         slices = {
-            "refunds": _slice(rng, 24, 0.65, rng.uniform(-0.02, 0.02)),
-            "international": _slice(rng, 24, 0.60, rng.uniform(-0.02, 0.02)),
-            "long-context": _slice(rng, 24, 0.55, rng.uniform(-0.02, 0.02)),
+            "refunds": _slice(rng, 24, 0.65, 0.0),
+            "international": _slice(rng, 24, 0.60, 0.0),
+            "long-context": _slice(rng, 24, 0.55, 0.0),
         }
         add(f"formatting and comment cleanup (v{rng.randint(2, 9)})", slices)
 

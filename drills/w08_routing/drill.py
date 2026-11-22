@@ -6,8 +6,8 @@ from agentlab.evals import make_card
 
 from .data import TieredModel, corpus as queries
 
-NAME = "w08 \u00b7 routing and cost"
-PREMISE = "Right is easy. Right for a third of the price is the actual job."
+NAME = "w08 - meeting a quality target under a cost cap"
+PREMISE = "Answer 40 questions correctly for under $0.030 using two tiers."
 TARGET_ACCURACY = 0.92
 MAX_COST_USD = 0.030
 SUPPORTS_REAL = False

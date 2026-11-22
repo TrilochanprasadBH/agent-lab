@@ -7,8 +7,8 @@ from agentlab.providers import ScriptedModel
 
 from .data import corpus as cases
 
-NAME = "w05 \u00b7 the agent loop"
-PREMISE = "The model has no memory. Anything it knows, your loop put there."
+NAME = "w05 - running a multi-step task"
+PREMISE = "Run 10 tasks to a correct stop, including stopping deliberately."
 TARGET_ACCURACY = 0.90
 MAX_COST_USD = 1.0
 SUPPORTS_REAL = False
