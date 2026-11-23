@@ -21,7 +21,7 @@ Last updated: 2026-11-23.
   docs/                       lab glossary and real-model notes
 
   ragkit/                     project 1, own git repo, 8 stages, COMPLETE
-  triage/                     project 2, 3 of 7 stages (classify, policy, draft)
+  triage/                     project 2, 4 of 7 stages (classify, policy, draft, actions)
   scout/                      project 3, not started
 ```
 
