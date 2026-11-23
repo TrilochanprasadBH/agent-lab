@@ -21,7 +21,7 @@ Last updated: 2026-11-23.
   docs/                       lab glossary and real-model notes
 
   ragkit/                     project 1, own git repo, 8 stages, COMPLETE
-  triage/                     project 2, not started
+  triage/                     project 2, 3 of 7 stages (classify, policy, draft)
   scout/                      project 3, not started
 ```
 
@@ -82,12 +82,17 @@ Every `stages/NN_name/README.md` uses exactly these sections, in this order:
 ## What you will build          one sentence
 ## Why this step is next        what breaks without it, tied to the previous number
 ## The idea                     first principles, definitions, formulas, no hand-waving
+## The measurement              optional: the table produced by the eval, with intervals
 ## Field notes                  what production teams published; cite; say what we did NOT do
 ## Do this                      numbered tasks with exact filenames
 ## Check yourself               the commands and the expected output
 ## If you are stuck             three hints, least revealing first
 ## What a senior would notice   judgment: what separates correct from good
 ```
+
+`Field notes` is required in every lesson, even when the entry is short. `The measurement`
+is optional and belongs before the field notes, so a reader meets the result before the
+industry context.
 
 Rules for the prose:
 
@@ -162,6 +167,9 @@ keeps earlier tests passing, and lets the learner diff stage by stage.
 - **Hold out a split.** Development questions are for tuning; the test split is looked at
   once. Record the split in the data file so it cannot be quietly changed.
 - **Every proportion carries a Wilson interval.** Report it next to the number.
+- **Every documented number has a check.** Run the project's `evals/check_docs.py` after
+  changing code; if a number moved, the documents that quote it must move with it. Drift
+  here is the failure mode this folder is most exposed to.
 - **Every comparison between two configurations is paired** and tested with exact
   McNemar. Report the discordant counts, not just the p-value.
 - **Run a power calculation** before claiming a small difference matters.
@@ -223,8 +231,13 @@ GH_TOKEN=$(gh auth token --user TrilochanprasadBH) gh repo create <name> --publi
 
 ## 10. Data and corpora
 
-- Vendor a **real** corpus, not invented prose. Real documents have the awkwardness that
-  makes the exercise worthwhile.
+- Vendor a **real** corpus, not invented prose, whenever the exercise is about text. Real
+  documents have the awkwardness that makes the exercise worthwhile.
+- **Exception: label-sensitive exercises.** When the exercise depends on exact, known
+  ambiguities that no public corpus contains (a support taxonomy where "cancel my order" and
+  "cancel my subscription" must be separated), an authored corpus is allowed, and the README
+  must say so and why. The labels are then the artefact, so they need
+  `evals/check_labels.py` verifying them.
 - Record the licence next to the data (`corpus/<name>/LICENSE`).
 - Keep it small enough to clone quickly (ragkit is 264 KB, 22 files).
 - If a larger corpus would help, write a `scripts/fetch_corpus.py` that downloads it, and
