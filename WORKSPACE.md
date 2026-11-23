@@ -1,10 +1,21 @@
 # What is in this folder
 
-You have two kinds of thing here, and they are different.
+Two kinds of thing, and they are different.
+
+## Read these first
+
+| file | what it is |
+| --- | --- |
+| `AGENTS.md` | the rules: how work is built, graded, written, and committed here |
+| `ROADMAP.md` | what exists, the coverage of the 25 topics, and what comes next |
+| `WORKSPACE.md` | this file |
+
+`AGENTS.md` is not optional reading. A new session that skips it will produce work that
+does not match the rest of the folder.
 
 ## 1. `explore/` itself — the Agent Lab
 
-This is a git repository. It contains fifteen practice drills for agent engineering.
+A git repository containing fifteen practice drills for agent engineering.
 
 ```
 explore/
@@ -13,38 +24,34 @@ explore/
   solutions/    reference solutions
   docs/         glossary and real-model notes
   run.py        start here: python3 run.py --list
-  README.md     what the lab is and how to use it
 ```
 
-Its remote is `github.com/TrilochanprasadBH/agent-lab`.
+Remote: `github.com/TrilochanprasadBH/agent-lab`.
 
 ## 2. The project folders — separate repositories
 
-Each of these is its own git repository, nested inside this folder so everything
-lives in one place. They are listed in `explore/.gitignore`, so the lab does not try
-to track them.
+Each is its own git repository, nested here so everything lives in one place. They are
+listed in `explore/.gitignore`, so the lab does not try to track them.
 
-| folder | status | what it is |
-| --- | --- | --- |
-| `ragkit/` | in progress | documentation assistant, eight stages. Stages 01-02 done |
-| `triage/` | not started | support agent with approval gates |
-| `scout/` | not started | research agent with sub-agents |
+| folder | status | what it is | remote |
+| --- | --- | --- | --- |
+| `ragkit/` | complete | documentation assistant, eight stages | `github.com/TrilochanprasadBH/ragkit` |
+| `triage/` | not started | support agent with approval gates | — |
+| `scout/` | not started | research agent with sub-agents | — |
 
 To tell whether a folder is its own repository:
 
 ```sh
-ls -d */ .git 2>/dev/null
 git -C ragkit rev-parse --show-toplevel
 ```
 
 ## The rule that keeps this manageable
 
-- **Lab (`explore`)** = exercises that teach one idea each, scored automatically.
-- **Projects (`ragkit`, `triage`, `scout`)** = complete systems you build stage by
-  stage, each ending in a deployable artifact.
+- **Lab (`explore`)** — exercises that teach one idea each and are scored automatically.
+- **Projects (`ragkit`, `triage`, `scout`)** — complete systems built stage by stage, each
+  ending in something deployable and defensible.
 
-If you are learning a concept, use the lab. If you are building something you can
-show someone, use a project.
+Learning a concept: use the lab. Building something to show someone: use a project.
 
 ## Starting points
 
@@ -53,7 +60,10 @@ show someone, use a project.
 cd ~/Desktop/explore
 python3 run.py --list
 
-# the first project
+# the finished project
 cd ~/Desktop/explore/ragkit
 python3 scripts/status.py
+
+# what to do next
+cat ~/Desktop/explore/ROADMAP.md
 ```

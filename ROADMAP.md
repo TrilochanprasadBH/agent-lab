@@ -1,0 +1,175 @@
+# ROADMAP
+
+What exists, what is missing, and how each gap will be closed.
+
+Two inventories: the Agent Lab (15 drills, in this repository) and the project repos
+(`ragkit` complete, `triage` and `scout` not started). Then the coverage map for the 25
+topics, which is the honest answer to "is this all covered".
+
+Last updated: 2026-11-23.
+
+---
+
+## 1. What exists now
+
+| thing | location | state |
+| --- | --- | --- |
+| Agent Lab, 15 drills | `explore/` | complete, 29 tests passing |
+| ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
+| triage, 7 stages | `explore/triage/` | not started |
+| scout, 6 stages | `explore/scout/` | not started |
+
+The lab teaches one idea at a time and grades it. A project teaches composition: eight
+stages that end in something you can deploy and defend.
+
+---
+
+## 2. Four delivery forms
+
+Not every topic should become a drill. Choosing the form is part of the design.
+
+**Form A — Lab drill.** Offline, deterministic, under two seconds, one number. Best for
+logic, measurement, and decision problems. Anything with a clear right answer that can be
+computed on your machine.
+
+**Form B — Project stage.** A module in a multi-stage repo with a runnable product at the
+end. Best for system behaviour: retrieval pipelines, agents, services.
+
+**Form C — Design writeup plus a measured simulation.** No production deployment, but a
+runnable model of the constraint: queueing, cost arithmetic, capacity planning. Best for
+questions that are really about numbers and trade-offs at a scale you cannot host.
+
+**Form D — Colab notebook.** Needs a GPU or a network. Cannot live in this folder's
+offline rules, so it lives separately with a link and a requirements file.
+
+---
+
+## 3. Coverage of the 25 topics
+
+`DONE` means a measured drill or stage exists. `PARTIAL` means a related unit exists but
+the specific question is not answered. `GAP` means nothing yet.
+
+| # | topic | status | form | where it goes |
+| --- | --- | --- | --- | --- |
+| 01 | RAG for 10M documents | PARTIAL | C + B | scale writeup; `scale-rag` project |
+| 02 | RAG gives wrong answers, debug it | PARTIAL | A | new drill: diagnose from traces |
+| 03 | Chunking for legal contracts | PARTIAL | A | new drill: hierarchical, clause-aware |
+| 04 | BM25 vs dense vs hybrid | **DONE** | A + B | ragkit stages 02, 04 |
+| 05 | Add a reranker and measure it | GAP | A | new drill: cross-encoder, nDCG |
+| 06 | Cut LLM cost by 70% | PARTIAL | A | new drill: cache + compress + route |
+| 07 | First-token latency | GAP | A + C | new drill: simulated stream, TTFT budget |
+| 08 | Semantic cache with hit rate | GAP | A | new drill: threshold vs false hits |
+| 09 | Route cheap vs smart model | **DONE** | A | lab w08 |
+| 10 | Agent uses tools reliably | **DONE** | A + B | lab w04, w05; `triage` |
+| 11 | Agent stuck in a loop | **DONE** | A | lab w05 (a07, a08), w10 |
+| 12 | Memory for a long assistant | GAP | A | new drill: summarise under budget |
+| 13 | Always-valid JSON | PARTIAL | A | new drill: constrained decode + repair |
+| 14 | Detect and reduce hallucination | PARTIAL | A | new drill: faithfulness scoring |
+| 15 | Eval suite for a support bot | **DONE** | A + B | lab w06, w07, w12–w15; ragkit 07 |
+| 16 | Trustworthy LLM judge | **DONE** | A | lab w07 |
+| 17 | Block prompt injection | **DONE** | A + B | lab w09; `triage` |
+| 18 | Redact PII before the model | GAP | A | new drill: precision/recall on spans |
+| 19 | Fine-tune vs RAG vs prompting | GAP | C | decision writeup with cost table |
+| 20 | LoRA on 5K examples | GAP | D | Colab notebook, outside this folder |
+| 21 | Serve an open model at scale | GAP | C + D | writeup + vLLM benchmark notebook |
+| 22 | SSE streaming and disconnects | GAP | A | new drill: stream + drop handling |
+| 23 | Trace a multi-agent workflow | PARTIAL | B | `scout`; tracing in `triage` |
+| 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
+| 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
+
+Tally: **7 done, 8 partial, 10 gaps.**
+
+The gaps cluster into three packs, and one of them is not buildable offline.
+
+---
+
+## 4. The next six, in priority order
+
+Priority is set by hiring weight and by how much the result teaches. Each is a drill
+unless stated.
+
+### 1. Reranker (topic 05)
+
+Fetch 20 candidates from the hybrid retriever, score each query-passage pair with a
+cross-encoder stand-in, keep the top 5, measure nDCG@5 before and after. The measurable
+question: does reranking recover what fusion lost?
+
+Why first: it is the largest single quality lever in retrieval, it appears in every
+production RAG description, and it has a clean metric.
+
+### 2. Semantic cache (topic 08)
+
+A cache keyed on embedding similarity rather than exact text. Sweep the similarity
+threshold and plot hit rate against false-hit rate. The lesson is the threshold, exactly
+as in the sufficiency gate.
+
+Why second: cost and latency are the two constraints every team hits, and the trade-off
+is easy to measure and hard to guess.
+
+### 3. PII redaction (topic 18)
+
+Detect names, emails, card numbers, and identifiers in text. Report precision and recall
+separately, then pick an operating point by which error is worse — the PostHog decision
+model, applied to a redaction gate.
+
+Why third: safety work is rarer on portfolios than retrieval work, and this one connects
+to a real production pattern with published numbers.
+
+### 4. Constrained JSON (topic 13)
+
+Make a simulated model emit valid JSON every time: schema-constrained decoding, repair,
+retry, and a fallback. Score validity rate, retries per request, and latency cost. Extends
+lab drill w01 from "repair" to "prevent".
+
+### 5. Memory (topic 12)
+
+A long conversation with a fixed context budget. Summarise, keep facts, and measure
+retention of the facts that mattered. The metric is a set of probe questions asked at the
+end.
+
+### 6. Debug the wrong answers (topic 02)
+
+The capstone of the evaluation pack: a deliberately broken pipeline, a set of failing
+questions, and traces. Find the cause. Scored on naming the correct failure class and the
+correct fix.
+
+---
+
+## 5. The two projects
+
+**`triage` (7 stages).** Support agent: classify, retrieve policy, draft, escalate.
+Covers tools with approval gates, audit trails, trajectory eval, PII handling, and
+tracing. This is the repo that answers topics 10, 11, 15, 17, and 23 in one system.
+
+**`scout` (6 stages).** Research agent: plan, search, read, synthesise with citations.
+Covers sub-agents, budget control, citation accuracy, and multi-agent tracing. Topics 23
+and part of 07.
+
+---
+
+## 6. What cannot be built here
+
+**LoRA fine-tuning (20) and model serving (21)** need a GPU and network. Pretending
+otherwise would break the offline rule for the whole folder. Plan:
+
+- a Colab notebook per topic, with a pinned requirements file
+- the notebook runs the real training or serving, and saves its metrics to a JSON file
+- a short writeup in this folder reads those metrics and explains the trade-offs
+
+That keeps the folder runnable while still producing real numbers. Topic 19 (fine-tune vs
+RAG vs prompting) is a decision writeup: given a scenario, choose and defend, with the
+cost arithmetic for each option.
+
+---
+
+## 7. How a new topic becomes a unit
+
+1. Decide the form with section 2. If a topic cannot be graded, it is a writeup, not a
+   drill.
+2. Write the failing test first. If you cannot write a test, the goal is not defined yet.
+3. Build the reference. Measure it against a baseline.
+4. Write the lesson in the format fixed by `AGENTS.md` section 4 or 5.
+5. If the measurement contradicts a published claim, say so in `FIELD-NOTES.md`.
+6. Record the number in the README and the roadmap.
+
+A topic that skips step 2 is a blog post.
