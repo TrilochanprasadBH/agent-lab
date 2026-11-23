@@ -5,3 +5,5 @@ results/
 .cache/
 .DS_Store
 ragkit/
+triage/
+scout/
