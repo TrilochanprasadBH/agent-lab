@@ -16,7 +16,7 @@ Last updated: 2026-11-23.
 | --- | --- | --- |
 | Agent Lab, 15 drills | `explore/` | complete, 29 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
-| triage, 7 stages | `explore/triage/` | not started |
+| triage, 7 stages | `explore/triage/` | 3 of 7 done (classify, policy, draft) |
 | scout, 6 stages | `explore/scout/` | not started |
 
 The lab teaches one idea at a time and grades it. A project teaches composition: eight
@@ -39,8 +39,10 @@ end. Best for system behaviour: retrieval pipelines, agents, services.
 runnable model of the constraint: queueing, cost arithmetic, capacity planning. Best for
 questions that are really about numbers and trade-offs at a scale you cannot host.
 
-**Form D — Colab notebook.** Needs a GPU or a network. Cannot live in this folder's
-offline rules, so it lives separately with a link and a requirements file.
+There is no Form D. Anything that needs a GPU or a network is out of scope, by decision,
+because this folder targets **application-side AI engineering**: retrieval, agents,
+evaluation, safety, cost, and shipping. Training weights and running inference servers is
+platform work, and it is not what the target roles hire for.
 
 ---
 
@@ -70,16 +72,19 @@ the specific question is not answered. `GAP` means nothing yet.
 | 17 | Block prompt injection | **DONE** | A + B | lab w09; `triage` |
 | 18 | Redact PII before the model | GAP | A | new drill: precision/recall on spans |
 | 19 | Fine-tune vs RAG vs prompting | GAP | C | decision writeup with cost table |
-| 20 | LoRA on 5K examples | GAP | D | Colab notebook, outside this folder |
-| 21 | Serve an open model at scale | GAP | C + D | writeup + vLLM benchmark notebook |
+| 20 | LoRA on 5K examples | OUT OF SCOPE | — | training work, not application work |
+| 21 | Serve an open model at scale | OUT OF SCOPE | — | inference infrastructure, not application work |
 | 22 | SSE streaming and disconnects | GAP | A | new drill: stream + drop handling |
 | 23 | Trace a multi-agent workflow | PARTIAL | B | `scout`; tracing in `triage` |
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **7 done, 8 partial, 10 gaps.**
+Tally: **7 done, 8 partial, 8 gaps, 2 out of scope.**
 
-The gaps cluster into three packs, and one of them is not buildable offline.
+Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
+and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
+and 21 are dropped: they are training and serving work, they cannot run in an offline
+repository, and they are not what the application-side roles ask for.
 
 ---
 
@@ -147,18 +152,17 @@ and part of 07.
 
 ---
 
-## 6. What cannot be built here
+## 6. Out of scope, by decision
 
-**LoRA fine-tuning (20) and model serving (21)** need a GPU and network. Pretending
-otherwise would break the offline rule for the whole folder. Plan:
+| topic | why it is out | where it belongs instead |
+| --- | --- | --- |
+| 20. LoRA fine-tuning | needs a GPU; training is not application work | a dedicated training project, or a course |
+| 21. Serving an open model | needs a GPU and an infra surface | an MLOps or platform track |
 
-- a Colab notebook per topic, with a pinned requirements file
-- the notebook runs the real training or serving, and saves its metrics to a JSON file
-- a short writeup in this folder reads those metrics and explains the trade-offs
-
-That keeps the folder runnable while still producing real numbers. Topic 19 (fine-tune vs
-RAG vs prompting) is a decision writeup: given a scenario, choose and defend, with the
-cost arithmetic for each option.
+Topic 19 is the exception: "fine-tune vs RAG vs prompting" is a decision an application
+engineer is expected to make and defend, so it stays as a short writeup with the cost
+arithmetic for each option. Knowing when *not* to fine-tune is the skill; doing the
+fine-tuning is a different job.
 
 ---
 
