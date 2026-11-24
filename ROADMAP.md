@@ -6,7 +6,7 @@ Two inventories: the Agent Lab (15 drills, in this repository) and the project r
 (`ragkit` complete, `triage` and `scout` not started). Then the coverage map for the 25
 topics, which is the honest answer to "is this all covered".
 
-Last updated: 2026-11-23.
+Last updated: 2026-11-24.
 
 ---
 
@@ -17,7 +17,7 @@ Last updated: 2026-11-23.
 | Agent Lab, 15 drills | `explore/` | complete, 29 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages |
-| scout, 6 stages | `explore/scout/` | not started |
+| scout, 6 stages | `explore/scout/` | complete, 6/6 stages |
 
 The lab teaches one idea at a time and grades it. A project teaches composition: eight
 stages that end in something you can deploy and defend.
@@ -75,11 +75,11 @@ the specific question is not answered. `GAP` means nothing yet.
 | 20 | LoRA on 5K examples | OUT OF SCOPE | — | training work, not application work |
 | 21 | Serve an open model at scale | OUT OF SCOPE | — | inference infrastructure, not application work |
 | 22 | SSE streaming and disconnects | GAP | A | new drill: stream + drop handling |
-| 23 | Trace a multi-agent workflow | PARTIAL | B | `scout`; tracing in `triage` |
+| 23 | Trace a multi-agent workflow | **DONE** | B | `scout` stage 06; tracing in `triage` stage 05 |
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **7 done, 8 partial, 8 gaps, 2 out of scope.**
+Tally: **8 done, 7 partial, 8 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20

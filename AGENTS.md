@@ -3,7 +3,7 @@
 This file exists so that a new session can continue without re-deriving anything. Read
 it fully before creating or changing a repository here.
 
-Last updated: 2026-11-23.
+Last updated: 2026-11-24.
 
 ---
 
@@ -22,7 +22,7 @@ Last updated: 2026-11-23.
 
   ragkit/                     project 1, own git repo, 8 stages, COMPLETE
   triage/                     project 2, 7 of 7 stages, COMPLETE
-  scout/                      project 3, not started
+  scout/                      project 3, 6 stages, COMPLETE
 ```
 
 Each project folder is its **own git repository**, nested inside `explore` so everything
