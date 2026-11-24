@@ -16,7 +16,7 @@ Last updated: 2026-11-23.
 | --- | --- | --- |
 | Agent Lab, 15 drills | `explore/` | complete, 29 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
-| triage, 7 stages | `explore/triage/` | 5 of 7 done (classify, policy, draft, actions, audit) |
+| triage, 7 stages | `explore/triage/` | 6 of 7 done (classify, policy, draft, actions, audit, trajectory) |
 | scout, 6 stages | `explore/scout/` | not started |
 
 The lab teaches one idea at a time and grades it. A project teaches composition: eight
