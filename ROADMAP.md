@@ -57,7 +57,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 02 | RAG gives wrong answers, debug it | PARTIAL | A | new drill: diagnose from traces |
 | 03 | Chunking for legal contracts | PARTIAL | A | new drill: hierarchical, clause-aware |
 | 04 | BM25 vs dense vs hybrid | **DONE** | A + B | ragkit stages 02, 04 |
-| 05 | Add a reranker and measure it | GAP | A | new drill: cross-encoder, nDCG |
+| 05 | Add a reranker and measure it | GAP | B | `ragkit` stage 09; a lab drill was attempted and rejected (section 4) |
 | 06 | Cut LLM cost by 70% | PARTIAL | A | new drill: cache + compress + route |
 | 07 | First-token latency | GAP | A + C | new drill: simulated stream, TTFT budget |
 | 08 | Semantic cache with hit rate | GAP | A | new drill: threshold vs false hits |
@@ -91,16 +91,39 @@ repository, and they are not what the application-side roles ask for.
 ## 4. The next six, in priority order
 
 Priority is set by hiring weight and by how much the result teaches. Each is a drill
-unless stated.
+unless stated. The reranker is listed first because it was first in line, not because it is
+still the best next move: it has been attempted and rejected for this lab.
 
-### 1. Reranker (topic 05)
+### 1. Reranker (topic 05) — attempted, rejected for the lab
 
-Fetch 20 candidates from the hybrid retriever, score each query-passage pair with a
-cross-encoder stand-in, keep the top 5, measure nDCG@5 before and after. The measurable
-question: does reranking recover what fusion lost?
+Built and measured, then removed: `drills/w16_rerank/` (97 real paragraphs from `docs/` and
+the fifteen specs, 16 queries, graded 0/1/2 relevance, nDCG@5, a cross-encoder stand-in with
+idf coverage, a synonym table, phrase adjacency and a length prior).
 
-Why first: it is the largest single quality lever in retrieval, it appears in every
-production RAG description, and it has a clean metric.
+The result, on that collection:
+
+| configuration | nDCG@5 | calls |
+| --- | --- | --- |
+| first stage (BM25), no rerank | **0.527** | 0 |
+| rerank top 6, score only | 0.504 | 96 |
+| rerank top 10, score only | 0.472 | 160 |
+| rerank top 6, fused with first stage | 0.514 | 96 |
+| rerank top 10, fused with first stage | 0.507 | 160 |
+
+Reranking never beat the retriever, and naive reranking made it worse the deeper it looked.
+The reason is in the judgments rather than the arithmetic: the queries and the passages that
+answer them share little vocabulary ("untrusted document" against "poisoned", "hijacking"
+against "instructions"), so a stand-in built out of term statistics has no signal to rank
+with. Fixing that by hand-feeding the stand-in a topic lexicon would have meant encoding the
+answer key, and a drill that measures its own lookup table teaches nothing.
+
+**This is a result about one simulation, not about reranking.** Real cross-encoders work
+because they read the pair; a project without model calls cannot reproduce that.
+
+**What would make it shippable.** Either a real model call in the scoring path (Form A no
+longer applies), or a judged collection large enough that the queries use the corpus's own
+vocabulary and the lesson becomes ranking rather than semantics — which is `ragkit`'s corpus,
+not this lab's. Recorded here so the next session does not rebuild it.
 
 ### 2. Semantic cache (topic 08)
 
