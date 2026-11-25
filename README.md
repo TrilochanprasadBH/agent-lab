@@ -162,7 +162,7 @@ Seventeen drills in four groups. The groups are ordered: each assumes the previo
 | # | drill | goal | baseline → reference | target |
 | --- | --- | --- | --- | --- |
 | 06 | evals | write a grader that generalises to unseen data | 50.0% → 100% | 90% |
-| 07 | judge calibration | get reliable preferences out of a noisy judge | 63.3% → 100% | 85% |
+| 07 | judge calibration | get reliable preferences out of a noisy judge | 66.7% → 100% | 85% |
 | 10 | trace triage | name the root cause of an agent failure | 18.3% → 100% | 90% |
 | 12 | significance | decide whether a score change is real | 60.0% → 94.3% | 90% |
 | 13 | eval sets | build a sample that covers what matters | 31.2% → 100% | 90% |
@@ -281,9 +281,12 @@ def build_model(seed: int): ...      # the model or world
 def score(results, model, target_accuracy, max_cost_usd) -> Scorecard: ...
 ```
 
-Add the drill name to `DRILLS` in `tests/test_drills.py` and to
-`progress.md`. The tests will then check your baseline fails and your reference
-passes.
+Add the drill name to `DRILLS` in `tests/test_drills.py`, add its row to the
+table in section 7, and add it to `progress.md`. The tests then check three
+things: your baseline fails, your reference passes, and both numbers match the
+table. If you change a drill, the table has to change with it — that is
+`tests/test_documented_numbers.py`, and it is the reason the numbers in this
+README can be trusted.
 
 ## 14. Repository layout
 

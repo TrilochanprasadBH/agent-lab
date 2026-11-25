@@ -14,7 +14,7 @@ Last updated: 2026-11-24.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 17 drills | `explore/` | complete, 29 tests passing |
+| Agent Lab, 17 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages |

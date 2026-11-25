@@ -169,7 +169,9 @@ keeps earlier tests passing, and lets the learner diff stage by stage.
 - **Every proportion carries a Wilson interval.** Report it next to the number.
 - **Every documented number has a check.** Run the project's `evals/check_docs.py` after
   changing code; if a number moved, the documents that quote it must move with it. Drift
-  here is the failure mode this folder is most exposed to.
+  here is the failure mode this folder is most exposed to. The lab's version is
+  `tests/test_documented_numbers.py`: it parses the drill table in `README.md`, runs every
+  drill twice, and fails on a mismatch.
 - **Every comparison between two configurations is paired** and tested with exact
   McNemar. Report the discordant counts, not just the p-value.
 - **Run a power calculation** before claiming a small difference matters.
