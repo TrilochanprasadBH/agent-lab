@@ -48,6 +48,7 @@ DRILLS = [
     "w15_regression",
     "w16_semantic_cache",
     "w17_pii",
+    "w18_constrained_json",
 ]
 
 # Rows whose baseline → reference cell is not a percentage pair. `w08` starts at 100% accuracy

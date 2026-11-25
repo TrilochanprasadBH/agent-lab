@@ -14,7 +14,7 @@ Last updated: 2026-11-24.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 17 drills | `explore/` | complete, 35 tests passing |
+| Agent Lab, 18 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages |
@@ -65,7 +65,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 10 | Agent uses tools reliably | **DONE** | A + B | lab w04, w05; `triage` |
 | 11 | Agent stuck in a loop | **DONE** | A | lab w05 (a07, a08), w10 |
 | 12 | Memory for a long assistant | GAP | A | new drill: summarise under budget |
-| 13 | Always-valid JSON | PARTIAL | A | new drill: constrained decode + repair |
+| 13 | Always-valid JSON | **DONE** | A | lab w18 (constrained decoding and its blind spot) |
 | 14 | Detect and reduce hallucination | PARTIAL | A | new drill: faithfulness scoring |
 | 15 | Eval suite for a support bot | **DONE** | A + B | lab w06, w07, w12–w15; ragkit 07 |
 | 16 | Trustworthy LLM judge | **DONE** | A | lab w07 |
@@ -79,7 +79,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **10 done, 5 partial, 8 gaps, 2 out of scope.**
+Tally: **11 done, 4 partial, 8 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
@@ -143,7 +143,7 @@ model, applied to a redaction gate.
 Why third: safety work is rarer on portfolios than retrieval work, and this one connects
 to a real production pattern with published numbers.
 
-### 4. Constrained JSON (topic 13)
+### 4. Constrained JSON (topic 13) — DONE as `w18_constrained_json`
 
 Make a simulated model emit valid JSON every time: schema-constrained decoding, repair,
 retry, and a fallback. Score validity rate, retries per request, and latency cost. Extends
