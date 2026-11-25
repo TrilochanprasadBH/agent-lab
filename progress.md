@@ -31,6 +31,7 @@ done the drill.
 | 13 | eval sets | 31.2% | | 90% | |
 | 14 | trajectory eval | 42.9% | | 85% | |
 | 15 | regression gating | 63.3% | | 90% | |
+| 16 | semantic cache | 0.0% | | 68%, wrong hits under 5% | |
 
 ## Entry template
 

@@ -14,7 +14,7 @@ Last updated: 2026-11-24.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 15 drills | `explore/` | complete, 29 tests passing |
+| Agent Lab, 16 drills | `explore/` | complete, 29 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages |
@@ -60,7 +60,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 05 | Add a reranker and measure it | GAP | B | `ragkit` stage 09; a lab drill was attempted and rejected (section 4) |
 | 06 | Cut LLM cost by 70% | PARTIAL | A | new drill: cache + compress + route |
 | 07 | First-token latency | GAP | A + C | new drill: simulated stream, TTFT budget |
-| 08 | Semantic cache with hit rate | GAP | A | new drill: threshold vs false hits |
+| 08 | Semantic cache with hit rate | **DONE** | A | lab w16 |
 | 09 | Route cheap vs smart model | **DONE** | A | lab w08 |
 | 10 | Agent uses tools reliably | **DONE** | A + B | lab w04, w05; `triage` |
 | 11 | Agent stuck in a loop | **DONE** | A | lab w05 (a07, a08), w10 |
@@ -79,7 +79,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **8 done, 7 partial, 8 gaps, 2 out of scope.**
+Tally: **9 done, 6 partial, 8 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
@@ -125,7 +125,7 @@ longer applies), or a judged collection large enough that the queries use the co
 vocabulary and the lesson becomes ranking rather than semantics — which is `ragkit`'s corpus,
 not this lab's. Recorded here so the next session does not rebuild it.
 
-### 2. Semantic cache (topic 08)
+### 2. Semantic cache (topic 08) — DONE as `w16_semantic_cache`
 
 A cache keyed on embedding similarity rather than exact text. Sweep the similarity
 threshold and plot hit rate against false-hit rate. The lesson is the threshold, exactly

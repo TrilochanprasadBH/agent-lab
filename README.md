@@ -1,6 +1,6 @@
 # Agent Lab
 
-Fifteen practice drills for building AI agents and for measuring whether they work.
+Sixteen practice drills for building AI agents and for measuring whether they work.
 
 Every drill is a small program that runs offline in about two seconds. You edit one
 file, run one command, and get a number that says how well you did.
@@ -23,7 +23,7 @@ one thing is wrong at a time, the number tells you what it was.
 
 ## 2. What you will be able to do afterwards
 
-By the end of drill 15 you will be able to:
+By the end of drill 16 you will be able to:
 
 1. Build a retrieval system and measure its quality with a number.
 2. Fit evidence into a fixed context budget without losing the part that matters.
@@ -32,7 +32,8 @@ By the end of drill 15 you will be able to:
 5. Write an eval set, a grader, and a judge, and know the failure modes of each.
 6. Decide whether a measured improvement is real or noise.
 7. Gate a release on per-category results instead of an average.
-8. Defend an AI system's reliability in a technical conversation.
+8. Put a threshold on a similarity score, and justify it from what each error costs.
+9. Defend an AI system's reliability in a technical conversation.
 
 ## 3. Requirements
 
@@ -137,7 +138,7 @@ hint, not an answer.
 
 ## 7. The drills
 
-Fifteen drills in four groups. The groups are ordered: each assumes the previous.
+Sixteen drills in four groups. The groups are ordered: each assumes the previous.
 
 ### Group A: getting the right text to the model
 
@@ -166,6 +167,7 @@ Fifteen drills in four groups. The groups are ordered: each assumes the previous
 | 13 | eval sets | build a sample that covers what matters | 31.2% → 100% | 90% |
 | 14 | trajectory eval | apply a rubric to a full agent run | 42.9% → 100% | 85% |
 | 15 | regression gating | catch a release that improves the average and breaks a category | 63.3% → 100% | 90% |
+| 16 | semantic cache | reuse an answer without serving it to the wrong question | 0.0% → 74.2% | 68%, wrong hits under 5% |
 
 ### Group D: putting it together
 
@@ -290,7 +292,7 @@ agentlab/              the harness, shared by every drill
   tools.py             schema-validated tool registry with a confirmation gate
   evals.py             normalization, field scoring, scorecard
   drill.py             runs a task over a corpus
-drills/                fifteen drills, each self-contained
+drills/                sixteen drills, each self-contained
 solutions/             one reference solution per drill
 tests/                 checks that the lab is fair and reproducible
 docs/                  glossary and real-model notes

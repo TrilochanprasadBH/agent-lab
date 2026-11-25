@@ -144,6 +144,7 @@ class Scorecard:
     max_cost_usd: float = 0.03
     min_calls_per_doc: float = 0.0
     notes: list[str] = field(default_factory=list)
+    hints_override: list[str] | None = None
 
     @property
     def meets_accuracy(self) -> bool:
@@ -172,6 +173,8 @@ class Scorecard:
 
     def hints(self) -> list[str]:
         """Turn failure clusters into concrete next moves."""
+        if self.hints_override is not None:
+            return list(self.hints_override)
         out: list[str] = []
         modes = self.modes
 
