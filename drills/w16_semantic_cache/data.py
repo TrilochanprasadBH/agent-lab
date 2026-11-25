@@ -10,14 +10,15 @@ centre per intent, and paraphrases placed near it. Six pairs of intents are plac
 similarity to each other, which is the trap. A real encoder's errors are not Gaussian, so the
 absolute numbers do not transfer; what transfers is the decision, and the shape of the curve.
 
-    threshold   hit rate   wrong hits
-      0.80        68%         15%
-      0.88        73.5%        4%
-      0.90        60%          1.5%
-      0.94         1%          0%
+    threshold   hit rate   wrong hits   cost
+      0.80        68.0%      15.0%      $0.109
+      0.88        74.2%       3.8%      $0.141
+      0.90        59.4%       1.4%      $0.251
+      0.94         1.0%       0.0%      $0.634
 
-There is no threshold that maximises both. You pick a point on that curve by asking what a
-wrong answer costs relative to a missed cache.
+`python3 drills/w16_semantic_cache/sweep.py` prints that table. There is no threshold that
+maximises both. You pick a point on that curve by asking what a wrong answer costs relative to
+a missed cache.
 """
 
 from __future__ import annotations
