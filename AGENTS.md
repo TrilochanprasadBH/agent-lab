@@ -3,7 +3,7 @@
 This file exists so that a new session can continue without re-deriving anything. Read
 it fully before creating or changing a repository here.
 
-Last updated: 2026-11-24.
+Last updated: 2026-11-25.
 
 ---
 

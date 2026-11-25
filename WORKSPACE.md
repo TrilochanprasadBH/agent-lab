@@ -15,12 +15,12 @@ does not match the rest of the folder.
 
 ## 1. `explore/` itself — the Agent Lab
 
-A git repository containing fifteen practice drills for agent engineering.
+A git repository containing nineteen practice drills for agent engineering.
 
 ```
 explore/
   agentlab/     the harness that runs and scores drills
-  drills/       fifteen drills (w01 to w15)
+  drills/       nineteen drills (w01 to w19)
   solutions/    reference solutions
   docs/         glossary and real-model notes
   run.py        start here: python3 run.py --list
