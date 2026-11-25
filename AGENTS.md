@@ -14,7 +14,7 @@ Last updated: 2026-11-24.
   AGENTS.md                   this file: rules and conventions
   ROADMAP.md                  what is built, what is next, coverage of the 25 topics
   WORKSPACE.md                which folder is which repository
-  README.md                   the Agent Lab: 18 drills
+  README.md                   the Agent Lab: 19 drills
   run.py                      lab entry point
   agentlab/                   lab harness
   drills/  solutions/  tests/ the lab's content

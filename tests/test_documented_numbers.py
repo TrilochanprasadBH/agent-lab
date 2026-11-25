@@ -49,6 +49,7 @@ DRILLS = [
     "w16_semantic_cache",
     "w17_pii",
     "w18_constrained_json",
+    "w19_memory",
 ]
 
 # Rows whose baseline → reference cell is not a percentage pair. `w08` starts at 100% accuracy
@@ -187,7 +188,13 @@ class TestDocumentedClaims(unittest.TestCase):
                 module = importlib.import_module(f"drills.{name}.drill")
                 with mock.patch.dict(os.environ, {}, clear=True):
                     model = module.build_model()
-                self.assertTrue(hasattr(model, "complete"), name)
+                # Not every drill's world is a chat model: w19 answers from a memory it is
+                # handed, w02 embeds and searches. What matters is that a callable object came
+                # back with no key and no network, not that it has one particular method.
+                interfaces = ("complete", "answer", "search", "embed")
+                self.assertTrue(
+                    any(callable(getattr(model, name, None)) for name in interfaces), name
+                )
 
     def test_every_drill_has_a_spec_and_a_reference(self):
         for name in DRILLS:

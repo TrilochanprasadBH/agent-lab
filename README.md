@@ -1,6 +1,6 @@
 # Agent Lab
 
-Eighteen practice drills for building AI agents and for measuring whether they work.
+Nineteen practice drills for building AI agents and for measuring whether they work.
 
 Every drill is a small program that runs offline in about two seconds. You edit one
 file, run one command, and get a number that says how well you did.
@@ -23,7 +23,7 @@ one thing is wrong at a time, the number tells you what it was.
 
 ## 2. What you will be able to do afterwards
 
-By the end of drill 18 you will be able to:
+By the end of drill 19 you will be able to:
 
 1. Build a retrieval system and measure its quality with a number.
 2. Fit evidence into a fixed context budget without losing the part that matters.
@@ -35,7 +35,8 @@ By the end of drill 18 you will be able to:
 8. Put a threshold on a similarity score, and justify it from what each error costs.
 9. Redact personal data with separate numbers for leaks and over-redaction.
 10. Make model output schema-valid, and separate validity from correctness.
-11. Defend an AI system's reliability in a technical conversation.
+11. Keep the facts that matter when a conversation outgrows its context budget.
+12. Defend an AI system's reliability in a technical conversation.
 
 ## 3. Requirements
 
@@ -140,7 +141,7 @@ hint, not an answer.
 
 ## 7. The drills
 
-Eighteen drills in four groups. The groups are ordered: each assumes the previous.
+Nineteen drills in four groups. The groups are ordered: each assumes the previous.
 
 ### Group A: getting the right text to the model
 
@@ -172,6 +173,7 @@ Eighteen drills in four groups. The groups are ordered: each assumes the previou
 | 16 | semantic cache | reuse an answer without serving it to the wrong question | 0.0% → 74.2% | 68%, wrong hits under 5% |
 | 17 | PII redaction | redact personal data without shredding the message | 0.0% → 97.7% | 93% recall, precision ≥ 90% |
 | 18 | constrained JSON | get valid objects without losing what is in them | 0.0% → 86.7% | 82% correct, validity ≥ 99% |
+| 19 | memory | keep the facts that matter under a fixed context budget | 30.8% → 100% | 85% |
 
 ### Group D: putting it together
 
@@ -299,7 +301,7 @@ agentlab/              the harness, shared by every drill
   tools.py             schema-validated tool registry with a confirmation gate
   evals.py             normalization, field scoring, scorecard
   drill.py             runs a task over a corpus
-drills/                eighteen drills, each self-contained
+drills/                nineteen drills, each self-contained
 solutions/             one reference solution per drill
 tests/                 checks that the lab is fair and reproducible
 docs/                  glossary and real-model notes

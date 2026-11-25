@@ -37,6 +37,7 @@ DRILLS = [
     "w16_semantic_cache",
     "w17_pii",
     "w18_constrained_json",
+    "w19_memory",
 ]
 
 

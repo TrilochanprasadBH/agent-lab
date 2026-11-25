@@ -2,7 +2,7 @@
 
 What exists, what is missing, and how each gap will be closed.
 
-Two inventories: the Agent Lab (15 drills, in this repository) and the project repos
+Two inventories: the Agent Lab (19 drills, in this repository) and the project repos
 (`ragkit` complete, `triage` and `scout` not started). Then the coverage map for the 25
 topics, which is the honest answer to "is this all covered".
 
@@ -14,7 +14,7 @@ Last updated: 2026-11-24.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 18 drills | `explore/` | complete, 35 tests passing |
+| Agent Lab, 19 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages |
@@ -64,7 +64,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 09 | Route cheap vs smart model | **DONE** | A | lab w08 |
 | 10 | Agent uses tools reliably | **DONE** | A + B | lab w04, w05; `triage` |
 | 11 | Agent stuck in a loop | **DONE** | A | lab w05 (a07, a08), w10 |
-| 12 | Memory for a long assistant | GAP | A | new drill: summarise under budget |
+| 12 | Memory for a long assistant | **DONE** | A | lab w19 (truncate vs summary vs fact ledger) |
 | 13 | Always-valid JSON | **DONE** | A | lab w18 (constrained decoding and its blind spot) |
 | 14 | Detect and reduce hallucination | PARTIAL | A | new drill: faithfulness scoring |
 | 15 | Eval suite for a support bot | **DONE** | A + B | lab w06, w07, w12–w15; ragkit 07 |
@@ -79,7 +79,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **11 done, 4 partial, 8 gaps, 2 out of scope.**
+Tally: **12 done, 4 partial, 7 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
@@ -149,11 +149,14 @@ Make a simulated model emit valid JSON every time: schema-constrained decoding, 
 retry, and a fallback. Score validity rate, retries per request, and latency cost. Extends
 lab drill w01 from "repair" to "prevent".
 
-### 5. Memory (topic 12)
+### 5. Memory (topic 12) — DONE as `w19_memory`
 
-A long conversation with a fixed context budget. Summarise, keep facts, and measure
-retention of the facts that mattered. The metric is a set of probe questions asked at the
-end.
+Six 60-turn conversations, a 160-token memory budget, 78 probes. Truncation retains 30.8% and
+answers 26.9% of the rest with a value the customer never gave. A rolling summary reaches 56.4%
+and silently rewrites numbers. A twelve-fact ledger keeps 92.3% in 32 tokens and misses the one
+detail no schema anticipated; the ledger plus the last six turns keeps 100% in 87 tokens.
+Correction handling alone is worth 15 points: first match 84.6%, last match 92.3%, skip a negated
+mention 100%.
 
 ### 6. Debug the wrong answers (topic 02)
 
