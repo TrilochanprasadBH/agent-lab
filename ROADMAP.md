@@ -14,7 +14,7 @@ Last updated: 2026-11-24.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 16 drills | `explore/` | complete, 29 tests passing |
+| Agent Lab, 17 drills | `explore/` | complete, 29 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages |
@@ -70,7 +70,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 15 | Eval suite for a support bot | **DONE** | A + B | lab w06, w07, w12–w15; ragkit 07 |
 | 16 | Trustworthy LLM judge | **DONE** | A | lab w07 |
 | 17 | Block prompt injection | **DONE** | A + B | lab w09; `triage` |
-| 18 | Redact PII before the model | GAP | A | new drill: precision/recall on spans |
+| 18 | Redact PII before the model | **DONE** | A | lab w17 |
 | 19 | Fine-tune vs RAG vs prompting | GAP | C | decision writeup with cost table |
 | 20 | LoRA on 5K examples | OUT OF SCOPE | — | training work, not application work |
 | 21 | Serve an open model at scale | OUT OF SCOPE | — | inference infrastructure, not application work |
@@ -79,7 +79,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **9 done, 6 partial, 8 gaps, 2 out of scope.**
+Tally: **10 done, 5 partial, 8 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
@@ -134,7 +134,7 @@ as in the sufficiency gate.
 Why second: cost and latency are the two constraints every team hits, and the trade-off
 is easy to measure and hard to guess.
 
-### 3. PII redaction (topic 18)
+### 3. PII redaction (topic 18) — DONE as `w17_pii`
 
 Detect names, emails, card numbers, and identifiers in text. Report precision and recall
 separately, then pick an operating point by which error is worse — the PostHog decision

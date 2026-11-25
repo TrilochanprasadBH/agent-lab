@@ -35,6 +35,7 @@ DRILLS = [
     "w14_trajectory",
     "w15_regression",
     "w16_semantic_cache",
+    "w17_pii",
 ]
 
 

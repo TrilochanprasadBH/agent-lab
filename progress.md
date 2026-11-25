@@ -32,6 +32,7 @@ done the drill.
 | 14 | trajectory eval | 42.9% | | 85% | |
 | 15 | regression gating | 63.3% | | 90% | |
 | 16 | semantic cache | 0.0% | | 68%, wrong hits under 5% | |
+| 17 | PII redaction | 0.0% (25% recall, 80% precision) | | 93% recall, precision ≥ 90% | |
 
 ## Entry template
 
