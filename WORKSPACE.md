@@ -36,7 +36,7 @@ listed in `explore/.gitignore`, so the lab does not try to track them.
 | folder | status | what it is | remote |
 | --- | --- | --- | --- |
 | `ragkit/` | complete | documentation assistant, eight stages | `github.com/TrilochanprasadBH/ragkit` |
-| `triage/` | complete | support agent with approval gates | — |
+| `triage/` | complete | support agent with approval gates | `github.com/TrilochanprasadBH/triage` |
 | `scout/` | complete | research agent with read-only sub-agents | `github.com/TrilochanprasadBH/scout` |
 
 To tell whether a folder is its own repository:

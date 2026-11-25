@@ -3,7 +3,7 @@
 What exists, what is missing, and how each gap will be closed.
 
 Two inventories: the Agent Lab (19 drills, in this repository) and the project repos
-(`ragkit` complete, `triage` and `scout` not started). Then the coverage map for the 25
+(all three complete and published). Then the coverage map for the 25
 topics, which is the honest answer to "is this all covered".
 
 Last updated: 2026-11-24.
@@ -16,7 +16,7 @@ Last updated: 2026-11-24.
 | --- | --- | --- |
 | Agent Lab, 19 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
-| triage, 7 stages | `explore/triage/` | complete, 7/7 stages |
+| triage, 7 stages | `explore/triage/` | complete, 7/7 stages, public repo |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages |
 
 The lab teaches one idea at a time and grades it. A project teaches composition: eight
