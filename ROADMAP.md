@@ -2,7 +2,7 @@
 
 What exists, what is missing, and how each gap will be closed.
 
-Two inventories: the Agent Lab (20 drills, in this repository) and the project repos
+Two inventories: the Agent Lab (21 drills, in this repository) and the project repos
 (all three complete and published). Then the coverage map for the 25
 topics, which is the honest answer to "is this all covered".
 
@@ -14,7 +14,7 @@ Last updated: 2026-11-25.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 20 drills | `explore/` | complete, 35 tests passing |
+| Agent Lab, 21 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages, public repo |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages, public repo |
@@ -59,7 +59,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 04 | BM25 vs dense vs hybrid | **DONE** | A + B | ragkit stages 02, 04 |
 | 05 | Add a reranker and measure it | GAP | B | `ragkit` stage 09; a lab drill was attempted and rejected (section 4) |
 | 06 | Cut LLM cost by 70% | PARTIAL | A | new drill: cache + compress + route |
-| 07 | First-token latency | GAP | A + C | new drill: simulated stream, TTFT budget |
+| 07 | First-token latency | **DONE** | A + C | lab w21 (queueing simulation, three gates) |
 | 08 | Semantic cache with hit rate | **DONE** | A | lab w16 |
 | 09 | Route cheap vs smart model | **DONE** | A | lab w08 |
 | 10 | Agent uses tools reliably | **DONE** | A + B | lab w04, w05; `triage` |
@@ -79,7 +79,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **13 done, 3 partial, 7 gaps, 2 out of scope.**
+Tally: **14 done, 3 partial, 6 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20

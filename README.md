@@ -1,6 +1,6 @@
 # Agent Lab
 
-Twenty practice drills for building AI agents and for measuring whether they work.
+Twenty-one practice drills for building AI agents and for measuring whether they work.
 
 Every drill is a small program that runs offline in about two seconds. You edit one
 file, run one command, and get a number that says how well you did.
@@ -23,7 +23,7 @@ one thing is wrong at a time, the number tells you what it was.
 
 ## 2. What you will be able to do afterwards
 
-By the end of drill 20 you will be able to:
+By the end of drill 21 you will be able to:
 
 1. Build a retrieval system and measure its quality with a number.
 2. Fit evidence into a fixed context budget without losing the part that matters.
@@ -37,7 +37,8 @@ By the end of drill 20 you will be able to:
 10. Make model output schema-valid, and separate validity from correctness.
 11. Keep the facts that matter when a conversation outgrows its context budget.
 12. Debug a wrong answer to the stage that actually lost the evidence.
-13. Defend an AI system's reliability in a technical conversation.
+13. Serve a latency budget by finding the bottleneck in requests per second.
+14. Defend an AI system's reliability in a technical conversation.
 
 ## 3. Requirements
 
@@ -142,7 +143,7 @@ hint, not an answer.
 
 ## 7. The drills
 
-Twenty drills in four groups. The groups are ordered: each assumes the previous.
+Twenty-one drills in five groups. The groups are ordered: each assumes the previous.
 
 ### Group A: getting the right text to the model
 
@@ -171,17 +172,22 @@ Twenty drills in four groups. The groups are ordered: each assumes the previous.
 | 13 | eval sets | build a sample that covers what matters | 31.2% → 100% | 90% |
 | 14 | trajectory eval | apply a rubric to a full agent run | 42.9% → 100% | 85% |
 | 15 | regression gating | catch a release that improves the average and breaks a category | 63.3% → 100% | 90% |
+### Group D: shipping and operating
+
+| # | drill | goal | baseline → reference | target |
+| --- | --- | --- | --- | --- |
+| 08 | routing | hit an accuracy target under a cost cap | 100% but over budget → 100% in budget | 92% |
 | 16 | semantic cache | reuse an answer without serving it to the wrong question | 0.0% → 74.2% | 68%, wrong hits under 5% |
 | 17 | PII redaction | redact personal data without shredding the message | 0.0% → 97.7% | 93% recall, precision ≥ 90% |
 | 18 | constrained JSON | get valid objects without losing what is in them | 0.0% → 86.7% | 82% correct, validity ≥ 99% |
 | 19 | memory | keep the facts that matter under a fixed context budget | 30.8% → 100% | 85% |
 | 20 | debug a wrong answer | name the stage that lost the evidence, not the symptom | 14.3% → 100% | 90% |
+| 21 | first-token latency | meet a latency, quality and cost budget at 40 rps | 0.0% → 95.8% | 92%, p95 ≤ 900ms, $0.0008 |
 
-### Group D: putting it together
+### Group E: putting it together
 
 | # | drill | goal | baseline → reference | target |
 | --- | --- | --- | --- | --- |
-| 08 | routing | hit an accuracy target under a cost cap | 100% but over budget → 100% in budget | 92% |
 | 11 | capstone | satisfy ten requirements in one pipeline | 20.8% → 100% | 90% |
 
 ## 8. Recommended order
@@ -190,7 +196,7 @@ Work in numeric order. The numbers were assigned in dependency order, not topic
 order.
 
 ```
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21
 ```
 
 Two exceptions worth knowing:
@@ -303,7 +309,7 @@ agentlab/              the harness, shared by every drill
   tools.py             schema-validated tool registry with a confirmation gate
   evals.py             normalization, field scoring, scorecard
   drill.py             runs a task over a corpus
-drills/                twenty drills, each self-contained
+drills/                twenty-one drills, each self-contained
 solutions/             one reference solution per drill
 tests/                 checks that the lab is fair and reproducible
 docs/                  glossary and real-model notes

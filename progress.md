@@ -36,6 +36,7 @@ done the drill.
 | 18 | constrained JSON | 0.0% (36.7% valid, 33.3% correct) | | 82% correct, validity ≥ 99% | |
 | 19 | memory | 30.8% (26.9% wrong, 42.3% abstained) | | 85% retained | |
 | 20 | debug a wrong answer | 14.3% | | 90% joint diagnosis | |
+| 21 | first-token latency | 0.0% (97.7% quality, p95 480s) | | 92%, p95 ≤ 900ms, $0.0008 | |
 
 ## Entry template
 
