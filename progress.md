@@ -35,6 +35,7 @@ done the drill.
 | 17 | PII redaction | 0.0% (25% recall, 80% precision) | | 93% recall, precision ≥ 90% | |
 | 18 | constrained JSON | 0.0% (36.7% valid, 33.3% correct) | | 82% correct, validity ≥ 99% | |
 | 19 | memory | 30.8% (26.9% wrong, 42.3% abstained) | | 85% retained | |
+| 20 | debug a wrong answer | 14.3% | | 90% joint diagnosis | |
 
 ## Entry template
 

@@ -177,7 +177,7 @@ def list_drills() -> int:
         except Exception:  # noqa: BLE001
             continue
         print(f" {info.name:<22} {getattr(module, 'NAME', '')}")
-        print(f" {'':<22} target {module.TARGET_ACCURACY:.0%}  cap ${module.MAX_COST_USD}")
+        print(f" {'':<22} target {module.TARGET_ACCURACY:.0%}  cap ${module.MAX_COST_USD:g}")
     print()
     return 0
 

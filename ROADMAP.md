@@ -2,7 +2,7 @@
 
 What exists, what is missing, and how each gap will be closed.
 
-Two inventories: the Agent Lab (19 drills, in this repository) and the project repos
+Two inventories: the Agent Lab (20 drills, in this repository) and the project repos
 (all three complete and published). Then the coverage map for the 25
 topics, which is the honest answer to "is this all covered".
 
@@ -14,7 +14,7 @@ Last updated: 2026-11-25.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 19 drills | `explore/` | complete, 35 tests passing |
+| Agent Lab, 20 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages, public repo |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages, public repo |
@@ -54,7 +54,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | # | topic | status | form | where it goes |
 | --- | --- | --- | --- | --- |
 | 01 | RAG for 10M documents | PARTIAL | C + B | scale writeup; `scale-rag` project |
-| 02 | RAG gives wrong answers, debug it | PARTIAL | A | new drill: diagnose from traces |
+| 02 | RAG gives wrong answers, debug it | **DONE** | A | lab w20 (first-failure ladder) |
 | 03 | Chunking for legal contracts | PARTIAL | A | new drill: hierarchical, clause-aware |
 | 04 | BM25 vs dense vs hybrid | **DONE** | A + B | ragkit stages 02, 04 |
 | 05 | Add a reranker and measure it | GAP | B | `ragkit` stage 09; a lab drill was attempted and rejected (section 4) |
@@ -79,7 +79,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **12 done, 4 partial, 7 gaps, 2 out of scope.**
+Tally: **13 done, 3 partial, 7 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
@@ -158,11 +158,12 @@ detail no schema anticipated; the ledger plus the last six turns keeps 100% in 8
 Correction handling alone is worth 15 points: first match 84.6%, last match 92.3%, skip a negated
 mention 100%.
 
-### 6. Debug the wrong answers (topic 02)
+### 6. Debug the wrong answers (topic 02) — DONE as `w20_debug`
 
-The capstone of the evaluation pack: a deliberately broken pipeline, a set of failing
-questions, and traces. Find the cause. Scored on naming the correct failure class and the
-correct fix.
+42 failing questions over seven stages (ingestion, chunking, query, retrieval, packing,
+generation, stale), each with a full trace. "Blame the model" scores 14.3%; a score heuristic
+21.4%; every check but in the wrong order 35.7%; the first-failure ladder 100%. All 42 look
+identical from the outside and the retrieval score is at or above 0.85 in all 42.
 
 ---
 

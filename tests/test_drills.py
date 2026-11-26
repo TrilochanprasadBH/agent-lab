@@ -38,6 +38,7 @@ DRILLS = [
     "w17_pii",
     "w18_constrained_json",
     "w19_memory",
+    "w20_debug",
 ]
 
 
