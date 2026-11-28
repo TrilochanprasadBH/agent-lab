@@ -16,7 +16,7 @@ Last updated: 2026-11-25.
 | --- | --- | --- |
 | Agent Lab, 23 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 9 stages | `explore/ragkit/` | complete, 9/9 stages, public repo |
-| triage, 7 stages | `explore/triage/` | complete, 7/7 stages, public repo |
+| triage, 8 stages | `explore/triage/` | complete, 8/8 stages, public repo |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages, public repo |
 
 The lab teaches one idea at a time and grades it. A project teaches composition: eight
@@ -68,7 +68,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 13 | Always-valid JSON | **DONE** | A | lab w18 (constrained decoding and its blind spot) |
 | 14 | Detect and reduce hallucination | PARTIAL | A | new drill: faithfulness scoring |
 | 15 | Eval suite for a support bot | **DONE** | A + B | lab w06, w07, w12–w15; ragkit 07 |
-| 16 | Trustworthy LLM judge | **DONE** | A | lab w07 |
+| 16 | Trustworthy LLM judge | **DONE** | A + B | lab w07; `triage` stage 08 (κ measured against authored human golds) |
 | 17 | Block prompt injection | **DONE** | A + B | lab w09 (the drill); `triage` adversarial set — 3/3 injected tickets refused: dangerous held 2/2, 0 unauthorised, 0 policy leaks |
 | 18 | Redact PII before the model | **DONE** | A | lab w17 |
 | 19 | Fine-tune vs RAG vs prompting | **DONE** | A + C | lab w23 (cost model, constraints, break-even) |
@@ -168,13 +168,16 @@ identical from the outside and the retrieval score is at or above 0.85 in all 42
 
 ## 5. The two projects
 
-**`triage` (7 stages).** Support agent: classify, retrieve policy, draft, escalate.
-Covers tools with approval gates, audit trails, trajectory eval, and tracing. This is
-the repo that answers topics 10, 11, 15, and 23 in one system. It also answers topic 17
-now, with a measured adversarial set: three injected tickets try to mint authority,
-invent a capability, and rewrite the policy, and all three are refused by structure
-(the gate, the registry, the policy store) — 2/2 dangerous held, 0 unauthorised, 0
-injected text in drafts. PII redaction is lab w17, not here.
+**`triage` (8 stages).** Support agent: classify, retrieve policy, draft, escalate.
+Covers tools with approval gates, audit trails, trajectory eval, tracing, and judge
+calibration. This is the repo that answers topics 10, 11, 15, and 23 in one system, and
+topic 16 in code: stage 08 calibrates two judges against 27 authored human verdicts —
+the lenient one is 74.1% raw agreement and κ 0.17, the calibrated rubric κ 1.00
+(fit-to-golds; Shopify's human ceiling was 0.69). It also answers topic 17 now, with a
+measured adversarial set: three injected tickets try to mint authority, invent a
+capability, and rewrite the policy, and all three are refused by structure (the gate,
+the registry, the policy store) — 2/2 dangerous held, 0 unauthorised, 0 injected text
+in drafts. PII redaction is lab w17, not here.
 
 **`scout` (6 stages).** Research agent: plan, search, read, synthesise with citations.
 Covers sub-agents, budget control, citation accuracy, and multi-agent tracing. Topics 23
