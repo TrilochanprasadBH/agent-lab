@@ -38,6 +38,7 @@ done the drill.
 | 20 | debug a wrong answer | 14.3% | | 90% joint diagnosis | |
 | 21 | first-token latency | 0.0% (97.7% quality, p95 480s) | | 92%, p95 ≤ 900ms, $0.0008 | |
 | 22 | streaming | 16.7% exact, 100% claimed complete | | 95% exact, under $0.0026 | |
+| 23 | fine-tune or RAG | 12.5% | | 90% of decisions | |
 
 ## Entry template
 

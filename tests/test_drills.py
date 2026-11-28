@@ -41,6 +41,7 @@ DRILLS = [
     "w20_debug",
     "w21_ttft",
     "w22_stream",
+    "w23_finetune",
 ]
 
 

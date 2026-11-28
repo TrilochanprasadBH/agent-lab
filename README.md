@@ -1,6 +1,6 @@
 # Agent Lab
 
-Twenty-two practice drills for building AI agents and for measuring whether they work.
+Twenty-three practice drills for building AI agents and for measuring whether they work.
 
 Every drill is a small program that runs offline in about two seconds. You edit one
 file, run one command, and get a number that says how well you did.
@@ -23,7 +23,7 @@ one thing is wrong at a time, the number tells you what it was.
 
 ## 2. What you will be able to do afterwards
 
-By the end of drill 22 you will be able to:
+By the end of drill 23 you will be able to:
 
 1. Build a retrieval system and measure its quality with a number.
 2. Fit evidence into a fixed context budget without losing the part that matters.
@@ -39,7 +39,8 @@ By the end of drill 22 you will be able to:
 12. Debug a wrong answer to the stage that actually lost the evidence.
 13. Serve a latency budget by finding the bottleneck in requests per second.
 14. Recover an answer from a stream that breaks, without paying for it twice.
-15. Defend an AI system's reliability in a technical conversation.
+15. Choose between prompting, retrieval and a fine-tune from volume and constraints.
+16. Defend an AI system's reliability in a technical conversation.
 
 ## 3. Requirements
 
@@ -144,7 +145,7 @@ hint, not an answer.
 
 ## 7. The drills
 
-Twenty-two drills in five groups. The groups are ordered: each assumes the previous.
+Twenty-three drills in five groups. The groups are ordered: each assumes the previous.
 
 ### Group A: getting the right text to the model
 
@@ -185,6 +186,7 @@ Twenty-two drills in five groups. The groups are ordered: each assumes the previ
 | 20 | debug a wrong answer | name the stage that lost the evidence, not the symptom | 14.3% → 100% | 90% |
 | 21 | first-token latency | meet a latency, quality and cost budget at 40 rps | 0.0% → 95.8% | 92%, p95 ≤ 900ms, $0.0008 |
 | 22 | streaming | finish a stream that dies mid-answer, at no extra cost | 16.7% → 100% | 95% exact, under $0.0026 |
+| 23 | fine-tune or RAG | pick the cheapest architecture that clears the bar | 12.5% → 100% | 90% |
 
 ### Group E: putting it together
 
@@ -311,7 +313,7 @@ agentlab/              the harness, shared by every drill
   tools.py             schema-validated tool registry with a confirmation gate
   evals.py             normalization, field scoring, scorecard
   drill.py             runs a task over a corpus
-drills/                twenty-two drills, each self-contained
+drills/                twenty-three drills, each self-contained
 solutions/             one reference solution per drill
 tests/                 checks that the lab is fair and reproducible
 docs/                  glossary and real-model notes
