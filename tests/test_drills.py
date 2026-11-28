@@ -40,6 +40,7 @@ DRILLS = [
     "w19_memory",
     "w20_debug",
     "w21_ttft",
+    "w22_stream",
 ]
 
 

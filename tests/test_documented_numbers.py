@@ -52,6 +52,7 @@ DRILLS = [
     "w19_memory",
     "w20_debug",
     "w21_ttft",
+    "w22_stream",
 ]
 
 # Rows whose baseline → reference cell is not a percentage pair. `w08` starts at 100% accuracy

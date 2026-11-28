@@ -2,7 +2,7 @@
 
 What exists, what is missing, and how each gap will be closed.
 
-Two inventories: the Agent Lab (21 drills, in this repository) and the project repos
+Two inventories: the Agent Lab (22 drills, in this repository) and the project repos
 (all three complete and published). Then the coverage map for the 25
 topics, which is the honest answer to "is this all covered".
 
@@ -14,7 +14,7 @@ Last updated: 2026-11-25.
 
 | thing | location | state |
 | --- | --- | --- |
-| Agent Lab, 21 drills | `explore/` | complete, 35 tests passing |
+| Agent Lab, 22 drills | `explore/` | complete, 35 tests passing |
 | ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages, public repo |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages, public repo |
@@ -74,12 +74,12 @@ the specific question is not answered. `GAP` means nothing yet.
 | 19 | Fine-tune vs RAG vs prompting | GAP | C | decision writeup with cost table |
 | 20 | LoRA on 5K examples | OUT OF SCOPE | — | training work, not application work |
 | 21 | Serve an open model at scale | OUT OF SCOPE | — | inference infrastructure, not application work |
-| 22 | SSE streaming and disconnects | GAP | A | new drill: stream + drop handling |
+| 22 | SSE streaming and disconnects | **DONE** | A | lab w22 (resume, idempotency, cost) |
 | 23 | Trace a multi-agent workflow | **DONE** | B | `scout` stage 06; tracing in `triage` stage 05 |
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **14 done, 3 partial, 6 gaps, 2 out of scope.**
+Tally: **15 done, 3 partial, 5 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
