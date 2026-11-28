@@ -15,7 +15,7 @@ Last updated: 2026-11-25.
 | thing | location | state |
 | --- | --- | --- |
 | Agent Lab, 23 drills | `explore/` | complete, 35 tests passing |
-| ragkit, 8 stages | `explore/ragkit/` | complete, 8/8 stages, public repo |
+| ragkit, 9 stages | `explore/ragkit/` | complete, 9/9 stages, public repo |
 | triage, 7 stages | `explore/triage/` | complete, 7/7 stages, public repo |
 | scout, 6 stages | `explore/scout/` | complete, 6/6 stages, public repo |
 
@@ -57,7 +57,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 02 | RAG gives wrong answers, debug it | **DONE** | A | lab w20 (first-failure ladder) |
 | 03 | Chunking for legal contracts | PARTIAL | A | new drill: hierarchical, clause-aware |
 | 04 | BM25 vs dense vs hybrid | **DONE** | A + B | ragkit stages 02, 04 |
-| 05 | Add a reranker and measure it | GAP | B | `ragkit` stage 09; a lab drill was attempted and rejected (section 4) |
+| 05 | Add a reranker and measure it | **DONE** | B | ragkit stage 09 (measured, not shipped) |
 | 06 | Cut LLM cost by 70% | PARTIAL | A | new drill: cache + compress + route |
 | 07 | First-token latency | **DONE** | A + C | lab w21 (queueing simulation, three gates) |
 | 08 | Semantic cache with hit rate | **DONE** | A | lab w16 |
@@ -79,7 +79,7 @@ the specific question is not answered. `GAP` means nothing yet.
 | 24 | Roll back a bad prompt change | PARTIAL | A | new drill: canary + revert decision |
 | 25 | Chat for 1M daily users | GAP | C | capacity writeup with arithmetic |
 
-Tally: **16 done, 3 partial, 4 gaps, 2 out of scope.**
+Tally: **17 done, 3 partial, 3 gaps, 2 out of scope.**
 
 Topic 19 stays as a short decision writeup, because choosing between prompting, retrieval
 and fine-tuning is an application-side judgment and it comes up in interviews. Topics 20
@@ -94,36 +94,35 @@ Priority is set by hiring weight and by how much the result teaches. Each is a d
 unless stated. The reranker is listed first because it was first in line, not because it is
 still the best next move: it has been attempted and rejected for this lab.
 
-### 1. Reranker (topic 05) — attempted, rejected for the lab
+### 1. Reranker (topic 05) — DONE, twice measured, not shipped
 
-Built and measured, then removed: `drills/w16_rerank/` (97 real paragraphs from `docs/` and
-the fifteen specs, 16 queries, graded 0/1/2 relevance, nDCG@5, a cross-encoder stand-in with
-idf coverage, a synonym table, phrase adjacency and a length prior).
+First as a lab drill, then as `ragkit` stage 09. Both attempts agree, and the second one says
+why the first one failed.
 
-The result, on that collection:
+The lab attempt (`drills/w16_rerank/`, since removed) reranked 97 paragraphs against 16 queries
+and never beat BM25: 0.527 nDCG@5 for the first stage against 0.514 for the best reranked
+configuration. The queries and the passages shared little vocabulary, so a term-statistics
+stand-in had no signal.
 
-| configuration | nDCG@5 | calls |
-| --- | --- | --- |
-| first stage (BM25), no rerank | **0.527** | 0 |
-| rerank top 6, score only | 0.504 | 96 |
-| rerank top 10, score only | 0.472 | 160 |
-| rerank top 6, fused with first stage | 0.514 | 96 |
-| rerank top 10, fused with first stage | 0.507 | 160 |
+The project attempt used `ragkit`'s corpus, where the queries do use the documents' own words,
+so the stand-in had signal — and the result is a rule rather than a win:
 
-Reranking never beat the retriever, and naive reranking made it worse the deeper it looked.
-The reason is in the judgments rather than the arithmetic: the queries and the passages that
-answer them share little vocabulary ("untrusted document" against "poisoned", "hijacking"
-against "instructions"), so a stand-in built out of term statistics has no signal to rank
-with. Fixing that by hand-feeding the stand-in a topic lexicon would have meant encoding the
-answer key, and a drill that measures its own lookup table teaches nothing.
+| first stage | recall@5 | MRR | MRR after reranking | gain |
+| --- | --- | --- | --- | --- |
+| dense | 78.3% | 0.541 | 0.668 | **+0.128** |
+| lexical | 95.7% | 0.701 | 0.725 | +0.024 |
+| hybrid | 95.7% | 0.732 | 0.741 | +0.009, and −2 recall points |
 
-**This is a result about one simulation, not about reranking.** Real cross-encoders work
-because they read the pair; a project without model calls cannot reproduce that.
+**The gain is the first stage's headroom.** A weak first stage leaves something to repair; a
+strong one does not, and the chunks a reranker demotes on a strong stage are the ones fusion got
+right. So the decision rule is: look at the first stage's MRR before building a second stage.
 
-**What would make it shippable.** Either a real model call in the scoring path (Form A no
-longer applies), or a judged collection large enough that the queries use the corpus's own
-vocabulary and the lesson becomes ranking rather than semantics — which is `ragkit`'s corpus,
-not this lab's. Recorded here so the next session does not rebuild it.
+**And none of it is significant.** On 23 development questions the dense gain is 7 wins and 3
+losses, p = 0.34, and the nine-question held-out split flips its sign (+0.128 dev, −0.019 held
+out). The reranker is not in the pipeline. What shipped is the measurement and the rule.
+
+That also explains the lab's null result without excusing it: the lab's first stage was already
+the strongest available, so there was nothing for a second stage to fix.
 
 ### 2. Semantic cache (topic 08) — DONE as `w16_semantic_cache`
 

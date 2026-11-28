@@ -20,7 +20,7 @@ Last updated: 2026-11-25.
   drills/  solutions/  tests/ the lab's content
   docs/                       lab glossary and real-model notes
 
-  ragkit/                     project 1, own git repo, 8 stages, COMPLETE
+  ragkit/                     project 1, own git repo, 9 stages, COMPLETE
   triage/                     project 2, 7 of 7 stages, COMPLETE
   scout/                      project 3, 6 stages, COMPLETE
 ```
